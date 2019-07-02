@@ -1,22 +1,34 @@
 {
   "name": "wayfarer",
   "version": "1.0.0",
-  "description": "",
+  "description": "A Public transportation booking server",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1"
+  },
   "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/node": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.2.0",
-    "eslint-plugin-import": "^2.18.0"
+    "eslint-plugin-import": "^2.18.0",
+    "nodemon": "^1.19.1"
   },
   "scripts": {
+    "start": "nodemon --exec babel-node server.js",
+    "lint": "eslint .",
+    "build": "babel server.js --out-dir build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Kaytbode/wayFarer.git"
   },
-  "author": "",
+  "author": "Kayode Oluborode",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Kaytbode/wayFarer/issues"
