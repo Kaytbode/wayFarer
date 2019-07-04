@@ -1,11 +1,13 @@
 import express from 'express';
 import bodyparser from 'body-parser';
+import cookieparser from 'cookie-parser';
 import 'dotenv/config';
 import api from './db/dbController';
 
 const app = express();
 
 app.use(bodyparser.json());
+app.use(cookieparser());
 
 app.use(
   bodyparser.urlencoded({
@@ -13,10 +15,6 @@ app.use(
   }),
 );
 
-app.get('/', (req, res) => res.status(200).send({ h: 'yay!' }));
-
 app.post('/api/v1/auth/signup', api.createUser);
 
 app.listen(process.env.PORT);
-
-console.log(`hey ${process.env.PORT}`);
