@@ -18,3 +18,5 @@ app.use(
 app.post('/api/v1/auth/signup', api.createUser);
 
 app.listen(process.env.PORT);
+
+export default app;
