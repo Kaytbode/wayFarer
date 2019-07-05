@@ -7,6 +7,14 @@ const pool = new Pool({
 const api = {
   async getTrips(req, res) {
     const getAllTrips = 'SELECT * FROM trips';
+    const { token } = req.cookies;
+
+    if (!token) {
+      return res.status(401).send({
+        status: 'error',
+        error: 'User unauthorized',
+      });
+    }
 
     try {
       const { rows } = await pool.query(getAllTrips);
