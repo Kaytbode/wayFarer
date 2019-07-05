@@ -7,7 +7,7 @@ const pool = new Pool({
 const api = {
   async createTrip(req, res) {
     const {
-      busId, origin, dest, tripDate, fare, status, isAdmin,
+      busId, origin, destination, tripDate, fare, status, isAdmin,
     } = req.body;
 
     if (!isAdmin) {
@@ -16,7 +16,7 @@ const api = {
         error: 'You do not have the permission to create trip',
       });
     }
-    const values = [busId, origin, dest, tripDate, fare, status];
+    const values = [busId, origin, destination, tripDate, fare, status];
     const text = `INSERT INTO trips (bus_id, origin, destination, trip_date, fare, status) 
                   VALUES($1, $2, $3, $4, $5, $6) RETURNING id`;
     try {
@@ -26,10 +26,10 @@ const api = {
         status: 'success',
         data: {
           trip_id: rows[0].id,
-          busId,
+          bus_id: busId,
           origin,
-          dest,
-          tripDate,
+          destination,
+          trip_date: tripDate,
           fare,
           status,
         },
