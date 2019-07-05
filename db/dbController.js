@@ -9,6 +9,14 @@ const api = {
     const {
       busId, origin, destination, tripDate, fare, status, isAdmin,
     } = req.body;
+    const { token } = req.cookies;
+
+    if (!token) {
+      return res.status(401).send({
+        status: 'error',
+        error: 'User unauthorized',
+      });
+    }
 
     if (!isAdmin) {
       return res.status(403).send({
