@@ -2,7 +2,6 @@ import { Pool } from 'pg';
 import jsonwebtoken from 'jsonwebtoken';
 import 'dotenv/config';
 
-
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
@@ -12,12 +11,14 @@ const api = {
     const {
       email, firstName, lastName, password,
     } = req.body;
-    const admin = false;
-    const values = [email, firstName, lastName, password, admin];
+    const isAdmin = false;
+    const values = [email, firstName, lastName, password, isAdmin];
     const text = `INSERT INTO users (email, first_name, last_name, password, is_admin) 
                   VALUES($1, $2, $3, $4, $5) RETURNING id`;
-
-    const token = jsonwebtoken.sign({ user: `${firstName}${lastName}` }, process.env.SECRET_KEY, {
+    const token = jsonwebtoken.sign({
+      firstName, email, lastName, password, isAdmin,
+    },
+    process.env.SECRET_KEY, {
       expiresIn: process.env.EXPIRY_SECONDS,
     });
 
@@ -30,12 +31,15 @@ const api = {
         status: 'success',
         data: {
           user_id: rows[0].id,
-          is_admin: admin,
+          is_admin: isAdmin,
           token,
         },
       });
     } catch (err) {
-      res.status(400).send(err);
+      res.status(400).send({
+        status: 'error',
+        error: err,
+      });
     }
   },
 };

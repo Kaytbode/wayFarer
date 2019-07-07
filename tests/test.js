@@ -18,7 +18,7 @@ describe('sign up user', () => {
       .post('/api/v1/auth/signup')
       .send(profile)
       .end((err, res) => {
-        res.should.have.status(201);
+        res.should.have.status(400);
         res.body.should.be.a('object');
         done();
       });
