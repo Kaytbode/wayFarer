@@ -17,7 +17,7 @@ app.use(
 
 app.post('/api/v1/auth/signup', api.createUser);
 app.post('/api/v1/auth/signin', api.confirmUser);
-
+app.post('/api/v1/trips', api.createTrip);
 
 app.listen(process.env.PORT);
 
