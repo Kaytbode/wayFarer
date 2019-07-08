@@ -4,12 +4,11 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
 
-const api = {
-  async createTrip(req, res) {
+class api {
+  static async createTrip(req, res) {
     const {
-      busId, origin, destination, tripDate, fare, status, isAdmin,
+      isAdmin, token, busId, origin, destination, tripDate, fare, status,
     } = req.body;
-    const { token } = req.cookies;
 
     if (!token) {
       return res.status(401).send({
@@ -48,7 +47,7 @@ const api = {
         error: err,
       });
     }
-  },
-};
+  }
+}
 
 export default api;

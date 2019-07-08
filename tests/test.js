@@ -16,6 +16,7 @@ describe('Admin can create trip', () => {
       fare: 100.45,
       status: 'active',
       isAdmin: false,
+      token: '3u3jh38333303',
     };
 
     chai.request(app)
@@ -23,6 +24,26 @@ describe('Admin can create trip', () => {
       .send(trip)
       .end((err, res) => {
         res.should.have.status(403);
+        res.body.should.be.a('object');
+        done();
+      });
+  });
+  it('it should not allow trip to be created without a token', (done) => {
+    const trip = {
+      busId: 4,
+      origin: 'ikeja',
+      destination: 'agege',
+      tripDate: '05-07-2019',
+      fare: 100.45,
+      status: 'active',
+      isAdmin: true,
+    };
+
+    chai.request(app)
+      .post('/api/v1/trips')
+      .send(trip)
+      .end((err, res) => {
+        res.should.have.status(401);
         res.body.should.be.a('object');
         done();
       });
@@ -36,6 +57,7 @@ describe('Admin can create trip', () => {
       fare: 100.45,
       status: 'active',
       isAdmin: true,
+      token: '373y3uh383833j3i3i',
     };
     chai.request(app)
       .post('/api/v1/trips')
