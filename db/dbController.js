@@ -6,8 +6,8 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
 
-const api = {
-  async confirmUser(req, res) {
+class api {
+  static async confirmUser(req, res) {
     const text = 'SELECT * FROM users WHERE email = $1 AND password = $2';
     const { email, password } = req.body;
 
@@ -16,16 +16,9 @@ const api = {
       const user = rows[0];
 
       if (!user) {
-        return res.status(404).send({
-          status: 'error',
-          error: 'User not found',
-        });
-      }
-
-      if (user.password !== password) {
         return res.status(401).send({
           status: 'error',
-          error: 'Unauthorized',
+          error: 'User not found',
         });
       }
 
@@ -43,7 +36,7 @@ const api = {
         error: err,
       });
     }
-  },
-};
+  }
+}
 
 export default api;

@@ -17,7 +17,23 @@ describe('user can sign in', () => {
       .post('/api/v1/auth/signin')
       .send(profile)
       .end((err, res) => {
-        res.should.have.status(404);
+        res.should.have.status(401);
+        res.body.should.be.a('object');
+        done();
+      });
+  });
+
+  it('it should not SIGN IN a user with the wrong password', (done) => {
+    const profile = {
+      email: 'abc@yahoo.com',
+      password: '11111',
+    };
+
+    chai.request(app)
+      .post('/api/v1/auth/signin')
+      .send(profile)
+      .end((err, res) => {
+        res.should.have.status(401);
         res.body.should.be.a('object');
         done();
       });
