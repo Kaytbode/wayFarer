@@ -24,7 +24,6 @@ describe('sign up user', () => {
         done();
       });
   });
-
   it('it should SIGN UP a user that meets all criteria', (done) => {
     const profile = {
       email: 'johndoe@gmail.com',
@@ -47,7 +46,6 @@ describe('sign up user', () => {
       });
   });
 });
-
 // test for sign in
 describe('user can sign in', () => {
   it('it should not SIGN IN a user without password', (done) => {
