@@ -28,7 +28,8 @@ describe('sign up user', () => {
       email: 'johndoe@gmail.com',
       firstName: 'John',
       lastName: 'Doe',
-      password: '123456',
+      password: '1234567',
+      token: 'i2jeuj38393930',
     };
     chai.request(app)
       .post('/api/v1/auth/signup')
