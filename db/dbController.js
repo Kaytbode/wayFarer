@@ -1,4 +1,6 @@
 import { Pool } from 'pg';
+import jwt from 'jsonwebtoken';
+import 'dotenv/config';
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
