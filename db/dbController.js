@@ -20,7 +20,7 @@ class api {
     });
     const values = [email, firstName, lastName, password, token, isAdmin];
     const text = `INSERT INTO users (email, first_name, last_name, password, token, is_admin) 
-                  VALUES($1, $2, $3, $4, $5, $6) RETURNING id`;
+                      VALUES($1, $2, $3, $4, $5, $6) RETURNING id`;
 
     try {
       const { rows } = await pool.query(text, values);
@@ -35,6 +35,37 @@ class api {
       });
     } catch (err) {
       res.status(400).send({
+        status: 'error',
+        error: err,
+      });
+    }
+  }
+
+  static async confirmUser(req, res) {
+    const text = 'SELECT * FROM users WHERE email = $1 AND password = $2';
+    const { email, password } = req.body;
+
+    try {
+      const { rows } = await pool.query(text, [email, password]);
+      const user = rows[0];
+
+      if (!user) {
+        return res.status(401).send({
+          status: 'error',
+          error: 'User not found',
+        });
+      }
+
+      return res.status(200).send({
+        status: 'success',
+        data: {
+          user_id: user.id,
+          is_admin: user.is_admin,
+          token: user.token,
+        },
+      });
+    } catch (err) {
+      return res.status(400).send({
         status: 'error',
         error: err,
       });
