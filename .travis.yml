@@ -1,6 +1,10 @@
 language: node_js
+env:
+  - DB=postgres://postgres@localhost/api
 node_js:
   - 'node'
+before_script:
+  - psql -c 'create database api;' -U postgres
 cache:
   directories:
     - "$HOME/.npm"
