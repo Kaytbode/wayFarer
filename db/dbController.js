@@ -24,8 +24,6 @@ class api {
 
     try {
       const { rows } = await pool.query(text, values);
-      console.log(rows[0]);
-      console.log(req.body);
       res.status(201).send({
         status: 'success',
         data: {
