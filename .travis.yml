@@ -2,11 +2,11 @@ language: node_js
 services:
   - postgresql
 env:
-  - DB=postgres://postgres:Tope1711@127.0.0.1:5432/api
+  - DB=DB=postgres://postgres@localhost/api
 node_js:
   - 'node'
 before_script:
-  - psql -c 'create database api;' -U postgres
+  - psql -c 'create DATABASE api;' -U postgres
   - psql -c "CREATE USER kay WITH PASSWORD 'olu';" -U postgres
 cache:
   directories:
