@@ -6,7 +6,10 @@ addons:
 before_script:
   - psql -c 'create database api;' -U postgres
 env:
-  - DB=postgres://postgres:Tope1711@127.0.0.1:5432/api
+  - DATABASE_URL= postgres://postgres:Tope1711@127.0.0.1:5432/api
+  - SECRET_KEY= bubbagumpshrimp
+  - EXPIRY_SECONDS= 604800
+
 node_js:
   - 'lts/*'
 cache:
