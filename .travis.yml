@@ -5,7 +5,7 @@ node_js:
   - 'node'
 before_script:
   - psql -c 'create database api;' -U postgres
-  - psql -c "CREATE USER postgres WITH PASSWORD 'Tope1711';" -U postgres
+  - psql -c "CREATE USER kay WITH PASSWORD 'olu';" -U postgres
 cache:
   directories:
     - "$HOME/.npm"
