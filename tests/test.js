@@ -10,7 +10,7 @@ chai.use(chaihttp);
 describe('sign up user', () => {
   it('it should not SIGN UP a user without all required fields', (done) => {
     const profile = {
-      email: 'johndoe@gmail.com',
+      email: 'johndote@gmail.com',
       firstName: 'John',
       lastName: 'Doe',
     };
