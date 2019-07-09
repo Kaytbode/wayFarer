@@ -1,13 +1,15 @@
 language: node_js
 services:
   - postgresql
+addons:
+  postgresql: "11.3"
 env:
   - DB=postgres://postgres@localhost/api
 node_js:
-  - 'node'
+  - 'lts/*'
 before_script:
   - psql -c 'create DATABASE api;' -U postgres
   - psql -c "CREATE USER kay WITH PASSWORD 'olu';" -U postgres
 cache:
   directories:
-    - "node_modules"
+    - "$HOME/.npm"
