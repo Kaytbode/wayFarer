@@ -7,8 +7,6 @@ env:
   - DB=postgres://postgres:Tope1711@127.0.0.1:5432/api
 node_js:
   - 'lts/*'
-before_script:
-  - psql -c "CREATE USER kay WITH PASSWORD 'olu';" -U postgres
 cache:
   directories:
     - "$HOME/.npm"
