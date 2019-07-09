@@ -6,10 +6,9 @@ services:
 addons:
   postgresql: "11.3"
 env:
-  global:
-  - NODE_ENV=test
+  - DATABASE_URL = postgres://postgres:Tope1711@127.0.0.1:5432/api SECRET_KEY = bubbagumpshrimp EXPIRY_SECONDS = 604800
 before_script:
-  - psql -c 'create database book_test;' -U postgres
+  - psql -c 'create database api;' -U postgres
   - psql -c "CREATE USER kay WITH PASSWORD bar;" -U postgres
 cache:
   directories:
