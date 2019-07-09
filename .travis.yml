@@ -4,7 +4,7 @@ services:
 addons:
   postgresql: "11.3"
 env:
-  - DB=postgres://postgres@localhost/api
+  - DB=postgres://postgres:Tope1711@127.0.0.1:5432/api
 node_js:
   - 'lts/*'
 before_script:
