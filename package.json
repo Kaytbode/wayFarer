@@ -26,6 +26,9 @@
     "mocha": "^6.1.4",
     "nodemon": "^1.19.1"
   },
+  "engines": {
+    "node": "10.x"
+  },
   "scripts": {
     "start": "nodemon --exec babel-node server.js",
     "lint": "eslint .",
