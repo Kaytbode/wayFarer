@@ -26,7 +26,7 @@ describe('sign up user', () => {
   });
   it('it should SIGN UP a user that meets all criteria', (done) => {
     const profile = {
-      email: 'johndoe@gmail.com',
+      email: 'johndote@gmail.com',
       firstName: 'John',
       lastName: 'Doe',
       password: '1234567',
