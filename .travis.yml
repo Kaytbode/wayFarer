@@ -2,7 +2,7 @@ language: node_js
 services:
   - postgresql
 env:
-  - DB=DB=postgres://postgres@localhost/api
+  - DB=postgres://postgres@localhost/api
 node_js:
   - 'node'
 before_script:
