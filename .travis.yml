@@ -1,14 +1,24 @@
 language: node_js
+
 node_js:
   - 'lts/*'
+
 services:
   - postgresql
+
 addons:
   postgresql: "11.3"
+
 env:
   - DATABASE_URL=postgres://ewrebfjtpmmqxm:9cb4c0ff9f818db83a2374889963d2d03f552d44e7518dfcd3cf22941d2b9b56@ec2-174-129-229-106.compute-1.amazonaws.com:5432/d9v688c8335t2o SECRET_KEY=bubbagumpshrimp EXPIRY_SECONDS=604800 PORT=3000
+
 before_script:
-  - psql -c 'CREATE DATABASE api;' -U postgres
+  - cp config/database.yml.travis config/database.yml
+
 cache:
   directories:
     - "$HOME/.npm"
+
+notifications:
+  email:
+    on_failure: never
