@@ -10,8 +10,6 @@ addons:
   postgresql: "11.3"
 
 env:
-  global:
-    - NODE_ENV=developement
   - DATABASE_URL=postgres://postgres:Tope1711@localhost:5432/api SECRET_KEY=bubbagumpshrimp EXPIRY_SECONDS=604800 PORT=3000
 
 before_script:
