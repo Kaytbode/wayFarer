@@ -13,7 +13,7 @@ env:
   - DATABASE_URL=postgres://postgres:Tope1711@localhost:5432/api SECRET_KEY=bubbagumpshrimp EXPIRY_SECONDS=604800 PORT=3000
 
 before_script:
-  - psql --version
+  - psql --V
   - cp database.yml.travis database.yml
 
 cache:
@@ -23,7 +23,3 @@ cache:
 notifications:
   email:
     on_failure: never
-
-install:
-  - npm install -g mocha
-  - npm install -g @babel/register
