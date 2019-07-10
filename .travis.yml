@@ -22,3 +22,6 @@ cache:
 notifications:
   email:
     on_failure: never
+
+install:
+  - npm install -g mocha
