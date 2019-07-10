@@ -3,8 +3,6 @@ language: node_js
 node_js:
   - 'lts/*'
 
-os: windows
-
 services:
   - postgresql
 
@@ -15,11 +13,12 @@ env:
   - DATABASE_URL=postgres://postgres:Tope1711@127.0.0.1:5432/api SECRET_KEY=bubbagumpshrimp EXPIRY_SECONDS=604800 PORT=3000
 
 before_script:
+  - npm init
   - cp database.yml.travis database.yml
 
 cache:
   directories:
-    - "node_modules"
+    - "$HOME/.npm"
 
 notifications:
   email:
