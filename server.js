@@ -15,7 +15,9 @@ app.use(
   }),
 );
 
-app.get('/', (req, res) => res.send({ hey: 'you' }));
+app.get('/', (req, res) => res.status(200).send({
+  apiDocs: 'https://wayfarer4.docs.apiary.io/#',
+}));
 app.post('/api/v1/auth/signup', api.createUser);
 app.post('/api/v1/auth/signin', api.confirmUser);
 app.post('/api/v1/trips', api.createTrip);
