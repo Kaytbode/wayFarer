@@ -13,7 +13,6 @@ env:
   - DATABASE_URL=postgres://postgres:Tope1711@127.0.0.1:5432/api SECRET_KEY=bubbagumpshrimp EXPIRY_SECONDS=604800 PORT=3000
 
 before_script:
-  - npm install
   - cp database.yml.travis database.yml
 
 cache:
