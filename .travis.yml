@@ -14,7 +14,6 @@ env:
 
 before_script:
   - cp database.yml.travis database.yml
-  - psql -c 'create database api;' -U postgres
 
 cache:
   directories:
