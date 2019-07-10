@@ -24,7 +24,7 @@ class api {
 
     try {
       const { rows } = await pool.query(text, values);
-      console.log(rows);
+
       res.status(201).send({
         status: 'success',
         data: {
@@ -48,7 +48,7 @@ class api {
     try {
       const { rows } = await pool.query(text, [email, password]);
       const user = rows[0];
-      console.log(user);
+
       if (!user) {
         return res.status(401).send({
           status: 'error',
