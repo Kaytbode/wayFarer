@@ -1,3 +1,3 @@
-server: localhost
-user: postgres
-password: Tope1711
+server: ec2-174-129-229-106.compute-1.amazonaws.com
+user: ewrebfjtpmmqxm
+password: 9cb4c0ff9f818db83a2374889963d2d03f552d44e7518dfcd3cf22941d2b9b56
