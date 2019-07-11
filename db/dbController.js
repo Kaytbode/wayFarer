@@ -261,6 +261,50 @@ class api {
       });
     }
   }
+
+  static async cancelTrip(req, res) {
+    const { token, isAdmin } = req.body;
+    const { tripId } = req.params;
+    const trip = {
+      text: 'UPDATE trips SET status = $1 WHERE id = $2 RETURNING *',
+      values: ['cancelled', +tripId],
+    };
+
+    if (!token) {
+      return res.status(401).send({
+        status: 'error',
+        error: 'User unauthorized',
+      });
+    }
+
+    if (!JSON.parse(isAdmin)) {
+      return res.status(403).send({
+        status: 'error',
+        error: 'You do not have the permission to cancel trips',
+      });
+    }
+
+    try {
+      const { rows } = await pool.query(trip);
+
+      return res.status(200).send({
+        status: 'success',
+        data: {
+          message: 'Trip cancelled successfully',
+          status: rows[0].status,
+          trip_id: rows[0].trip_id,
+          bus_id: rows[0].bus_id,
+          origin: rows[0].origin,
+          destination: rows[0].destination,
+        },
+      });
+    } catch (err) {
+      return res.status(400).send({
+        status: 'error',
+        error: err,
+      });
+    }
+  }
 }
 
 export default api;

@@ -352,3 +352,50 @@ describe('Delete bookings', () => {
       });
   });
 });
+
+// cancel trip
+
+describe('Cancel trips', () => {
+  it('Admin can cancel trips', (done) => {
+    const profile = {
+      token: '6yhh3n3j3k3',
+      isAdmin: true,
+    };
+    chai.request(app)
+      .patch('/api/v1/trips/3')
+      .send(profile)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.data.should.be.a('object');
+        done();
+      });
+  });
+  it('Non admins cannot cancel trips', (done) => {
+    const profile = {
+      token: '6yhh3n3j3k3',
+      isAdmin: false,
+    };
+    chai.request(app)
+      .patch('/api/v1/trips/4')
+      .send(profile)
+      .end((err, res) => {
+        res.should.have.status(403);
+        res.body.should.be.a('object');
+        done();
+      });
+  });
+  it('it should not cancel trips without a token', (done) => {
+    const profile = {
+      isAdmin: true,
+    };
+    chai.request(app)
+      .patch('/api/v1/trips/4')
+      .send(profile)
+      .end((err, res) => {
+        res.should.have.status(401);
+        res.body.should.be.a('object');
+        done();
+      });
+  });
+});
