@@ -408,7 +408,7 @@ describe('Trips by Destination', () => {
       token: '6yhh3n3j3k3',
     };
     chai.request(app)
-      .get('/api/v1/trips/mushin')
+      .get('/api/v1/trips/destination/mushin')
       .send(profile)
       .end((err, res) => {
         res.should.have.status(200);
@@ -423,7 +423,7 @@ describe('Trips by Destination', () => {
 
     };
     chai.request(app)
-      .get('/api/v1/trips/mushin')
+      .get('/api/v1/trips/destination/mushin')
       .send(profile)
       .end((err, res) => {
         res.should.have.status(401);
@@ -433,3 +433,35 @@ describe('Trips by Destination', () => {
   });
 });
 
+// filter by origin
+
+describe('Trips by Origin', () => {
+  it('Users can view trips by origin', (done) => {
+    const profile = {
+      token: '6yhh3n3j3k3',
+    };
+    chai.request(app)
+      .get('/api/v1/trips/origin/ikeja')
+      .send(profile)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.data.should.be.a('array');
+        done();
+      });
+  });
+
+  it('users should not view trips without a token', (done) => {
+    const profile = {
+
+    };
+    chai.request(app)
+      .get('/api/v1/trips/origin/ikeja')
+      .send(profile)
+      .end((err, res) => {
+        res.should.have.status(401);
+        res.body.should.be.a('object');
+        done();
+      });
+  });
+});
