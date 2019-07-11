@@ -465,3 +465,39 @@ describe('Trips by Origin', () => {
       });
   });
 });
+
+// Change seat
+
+describe('Change seat', () => {
+  it('User can change seat', (done) => {
+    const profile = {
+      token: '6yhh3n3j3k3',
+      seatNumber: 5,
+      userId: 13,
+    };
+    chai.request(app)
+      .patch('/api/v1/bookings/user/6')
+      .send(profile)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.data.should.be.a('object');
+        done();
+      });
+  });
+
+  it('User cannot change seat without a token', (done) => {
+    const profile = {
+      seatNumber: 5,
+      userId: 13,
+    };
+    chai.request(app)
+      .patch('/api/v1/bookings/user/6')
+      .send(profile)
+      .end((err, res) => {
+        res.should.have.status(401);
+        res.body.should.be.a('object');
+        done();
+      });
+  });
+});
