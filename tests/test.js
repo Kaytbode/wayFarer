@@ -408,7 +408,7 @@ describe('Trips by Destination', () => {
       token: '6yhh3n3j3k3',
     };
     chai.request(app)
-      .get('/api/v1/trips/mushin')
+      .get('/api/v1/trips/destination/mushin')
       .send(profile)
       .end((err, res) => {
         res.should.have.status(200);
@@ -423,7 +423,7 @@ describe('Trips by Destination', () => {
 
     };
     chai.request(app)
-      .get('/api/v1/trips/mushin')
+      .get('/api/v1/trips/destination/mushin')
       .send(profile)
       .end((err, res) => {
         res.should.have.status(401);
