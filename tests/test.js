@@ -399,3 +399,37 @@ describe('Cancel trips', () => {
       });
   });
 });
+
+// filter by destination
+
+describe('Trips by Destination', () => {
+  it('Users can view trips by destination', (done) => {
+    const profile = {
+      token: '6yhh3n3j3k3',
+    };
+    chai.request(app)
+      .get('/api/v1/trips/mushin')
+      .send(profile)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.data.should.be.a('array');
+        done();
+      });
+  });
+
+  it('users should not view trips without a token', (done) => {
+    const profile = {
+
+    };
+    chai.request(app)
+      .get('/api/v1/trips/mushin')
+      .send(profile)
+      .end((err, res) => {
+        res.should.have.status(401);
+        res.body.should.be.a('object');
+        done();
+      });
+  });
+});
+
