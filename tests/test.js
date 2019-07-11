@@ -306,3 +306,49 @@ describe('View bookings', () => {
       });
   });
 });
+
+// delete bookings
+
+describe('Delete bookings', () => {
+  it('user can delete bookings', (done) => {
+    const profile = {
+      token: '6yhh3n3j3k3',
+      userId: 12,
+    };
+    chai.request(app)
+      .delete('/api/v1/bookings/2')
+      .send(profile)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.data.should.be.a('object');
+        done();
+      });
+  });
+  it('User cannot delete bookings without userId', (done) => {
+    const profile = {
+      token: '6yhh3n3j3k3',
+    };
+    chai.request(app)
+      .delete('/api/v1/bookings/6')
+      .send(profile)
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.be.a('object');
+        done();
+      });
+  });
+  it('it should not delete bookings without a token', (done) => {
+    const profile = {
+      userId: 13,
+    };
+    chai.request(app)
+      .delete('/api/v1/bookings/6')
+      .send(profile)
+      .end((err, res) => {
+        res.should.have.status(401);
+        res.body.should.be.a('object');
+        done();
+      });
+  });
+});
