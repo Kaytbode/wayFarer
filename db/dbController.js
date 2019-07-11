@@ -305,6 +305,36 @@ class api {
       });
     }
   }
+
+  static async getTripsByDest(req, res) {
+    const { token } = req.body;
+    const { destination } = req.params;
+    const trips = {
+      text: 'SELECT * FROM trips WHERE destination = $1',
+      values: [destination],
+    };
+
+    if (!token) {
+      return res.status(401).send({
+        status: 'error',
+        error: 'User unauthorized',
+      });
+    }
+
+    try {
+      const { rows } = await pool.query(trips);
+
+      return res.status(200).send({
+        status: 'success',
+        data: rows,
+      });
+    } catch (err) {
+      return res.status(400).send({
+        status: 'error',
+        error: err,
+      });
+    }
+  }
 }
 
 export default api;
