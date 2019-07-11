@@ -211,8 +211,8 @@ describe('Users can book trips', () => {
       email: 'u@h.com',
       firstName: 'kd',
       lastName: 'ol',
-      userId: 12,
-      tripId: 23,
+      userId: 13,
+      tripId: 25,
       busId: 9,
       seatNumber: 234,
       tripDate: '2019-06-04',
@@ -248,6 +248,56 @@ describe('Users can book trips', () => {
     };
     chai.request(app)
       .post('/api/v1/bookings')
+      .send(profile)
+      .end((err, res) => {
+        res.should.have.status(401);
+        res.body.should.be.a('object');
+        done();
+      });
+  });
+});
+
+// view bookings
+
+describe('View bookings', () => {
+  it('Admin can view all bookings', (done) => {
+    const profile = {
+      token: '6yhh3n3j3k3',
+      isAdmin: true,
+    };
+    chai.request(app)
+      .get('/api/v1/bookings')
+      .send(profile)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.data.should.be.a('array');
+        done();
+      });
+  });
+  it('User can view his/her bookings', (done) => {
+    const profile = {
+      token: '6yhh3n3j3k3',
+      isAdmin: false,
+      userId: 2,
+    };
+    chai.request(app)
+      .get('/api/v1/bookings')
+      .send(profile)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.data.should.be.a('array');
+        done();
+      });
+  });
+  it('it should not get bookings without a token', (done) => {
+    const profile = {
+      isAdmin: false,
+      userId: 2,
+    };
+    chai.request(app)
+      .get('/api/v1/bookings')
       .send(profile)
       .end((err, res) => {
         res.should.have.status(401);

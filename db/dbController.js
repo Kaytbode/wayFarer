@@ -51,6 +51,7 @@ class api {
       const { rows } = await pool.query(text, [email, password]);
       const user = rows[0];
 
+
       if (!user) {
         return res.status(401).send({
           status: 'error',
@@ -86,7 +87,7 @@ class api {
       });
     }
 
-    if (!isAdmin) {
+    if (!JSON.parse(isAdmin)) {
       return res.status(403).send({
         status: 'error',
         error: 'You do not have the permission to create trip',
@@ -177,6 +178,38 @@ class api {
           last_name: lastName,
           email,
         },
+      });
+    } catch (err) {
+      return res.status(400).send({
+        status: 'error',
+        error: err,
+      });
+    }
+  }
+
+  static async viewBookings(req, res) {
+    const { token, isAdmin, userId } = req.body;
+    const myBookings = {
+      text: 'SELECT * FROM booking WHERE user_id = $1',
+      values: [userId],
+    };
+
+    if (!token) {
+      return res.status(401).send({
+        status: 'error',
+        error: 'User unauthorized',
+      });
+    }
+
+    const bookings = JSON.parse(isAdmin) ? 'SELECT * FROM booking' : myBookings;
+
+    try {
+      const { rows } = await pool.query(bookings);
+
+
+      return res.status(200).send({
+        status: 'success',
+        data: rows,
       });
     } catch (err) {
       return res.status(400).send({
