@@ -234,6 +234,13 @@ class api {
       });
     }
 
+    if (!userId) {
+      return res.status(400).send({
+        status: 'error',
+        error: 'UserId missing',
+      });
+    }
+
     try {
       const { rows } = await pool.query(myBookings);
 
