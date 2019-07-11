@@ -2,7 +2,7 @@ import express from 'express';
 import bodyparser from 'body-parser';
 import cookieparser from 'cookie-parser';
 import 'dotenv/config';
-import api from './db/dbController';
+import router from './routes/index';
 
 const app = express();
 
@@ -15,13 +15,7 @@ app.use(
   }),
 );
 
-app.get('/', (req, res) => res.status(200).send({
-  apiDocs: 'https://wayfarer4.docs.apiary.io/#',
-}));
-app.post('/api/v1/auth/signup', api.createUser);
-app.post('/api/v1/auth/signin', api.confirmUser);
-app.post('/api/v1/trips', api.createTrip);
-app.get('/api/v1/trips', api.getTrips);
+app.use('/', router);
 
 app.listen(process.env.PORT);
 

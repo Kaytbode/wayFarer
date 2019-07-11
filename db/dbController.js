@@ -18,9 +18,10 @@ class api {
     process.env.SECRET_KEY, {
       expiresIn: process.env.EXPIRY_SECONDS,
     });
+
     const values = [email, firstName, lastName, password, token, isAdmin];
-    const text = `INSERT INTO users (email, first_name, last_name, password, token, is_admin) 
-                      VALUES($1, $2, $3, $4, $5, $6) RETURNING id`;
+    const text = `INSERT INTO users (email, first_name, last_name, password, token, is_admin)
+     VALUES($1, $2, $3, $4, $5, $6) RETURNING id`;
 
     try {
       const { rows } = await pool.query(text, values);

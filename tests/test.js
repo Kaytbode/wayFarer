@@ -13,6 +13,7 @@ describe('sign up user', () => {
       email: 'johndote@gmail.com',
       firstName: 'John',
       lastName: 'Doe',
+      isAdmin: false,
     };
 
     chai.request(app)
