@@ -19,4 +19,6 @@ router.patch('/api/v1/trips/:tripId', api.cancelTrip);
 router.get('/api/v1/trips/destination/:destination', api.getTripsByDest);
 router.get('/api/v1/trips/origin/:origin', api.getTripsByOrigin);
 router.patch('/api/v1/bookings/user/:bookingId', api.changeSeat);
+
+
 export default router;
