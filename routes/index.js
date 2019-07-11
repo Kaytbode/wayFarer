@@ -15,4 +15,6 @@ router.get('/api/v1/bookings', api.viewBookings);
 router.delete('/api/v1/bookings/:bookingId', api.deleteBookings);
 router.patch('/api/v1/trips/:tripId', api.cancelTrip);
 
+// Optional features
+router.get('/api/v1/trips/:destination', api.getTripsByDest);
 export default router;
