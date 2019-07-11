@@ -12,5 +12,6 @@ router.post('/api/v1/trips', api.createTrip);
 router.get('/api/v1/trips', api.getTrips);
 router.post('/api/v1/bookings', api.bookASeat);
 router.get('/api/v1/bookings', api.viewBookings);
+router.delete('/api/v1/bookings/:bookingId', api.deleteBookings);
 
 export default router;

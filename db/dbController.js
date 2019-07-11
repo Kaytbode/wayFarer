@@ -218,6 +218,42 @@ class api {
       });
     }
   }
+
+  static async deleteBookings(req, res) {
+    const { token, userId } = req.body;
+    const { bookingId } = req.params;
+    const myBookings = {
+      text: 'DELETE FROM booking WHERE user_id = $1 AND id = $2 RETURNING *',
+      values: [+userId, +bookingId],
+    };
+
+    if (!token) {
+      return res.status(401).send({
+        status: 'error',
+        error: 'User unauthorized',
+      });
+    }
+
+    try {
+      const { rows } = await pool.query(myBookings);
+
+      return res.status(200).send({
+        status: 'success',
+        data: {
+          message: 'Booking deleted successfully',
+          booking_id: rows[0].id,
+          id: rows[0].user_id,
+          trip_id: rows[0].trip_id,
+          bus_id: rows[0].bus_id,
+        },
+      });
+    } catch (err) {
+      return res.status(400).send({
+        status: 'error',
+        error: err,
+      });
+    }
+  }
 }
 
 export default api;
