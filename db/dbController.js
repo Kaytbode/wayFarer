@@ -365,6 +365,41 @@ class api {
       });
     }
   }
+
+  static async changeSeat(req, res) {
+    const { token, seatNumber, userId } = req.body;
+    const { bookingId } = req.params;
+    const newSeat = {
+      text: 'UPDATE booking SET seat_number = $1 WHERE id = $2  AND user_id = $3 RETURNING *',
+      values: [+seatNumber, +bookingId, +userId],
+    };
+
+    if (!token) {
+      return res.status(401).send({
+        status: 'error',
+        error: 'User unauthorized',
+      });
+    }
+
+    try {
+      const { rows } = await pool.query(newSeat);
+
+      return res.status(200).send({
+        status: 'success',
+        data: {
+          message: 'Seat changed successfully',
+          seat_number: rows[0].seat_number,
+          user_id: rows[0].user_id,
+          booking_id: rows[0].id,
+        },
+      });
+    } catch (err) {
+      return res.status(400).send({
+        status: 'error',
+        error: err,
+      });
+    }
+  }
 }
 
 export default api;
