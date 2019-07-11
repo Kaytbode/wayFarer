@@ -202,3 +202,57 @@ describe('Users can get all trips', () => {
       });
   });
 });
+
+// Book a trip
+describe('Users can book trips', () => {
+  it('it should book a trip if all parameters are available', (done) => {
+    const profile = {
+      token: '6yhh3n3j3k3',
+      email: 'u@h.com',
+      firstName: 'kd',
+      lastName: 'ol',
+      userId: 12,
+      tripId: 23,
+      busId: 9,
+      seatNumber: 234,
+      tripDate: '2019-06-04',
+    };
+    chai.request(app)
+      .post('/api/v1/bookings')
+      .send(profile)
+      .end((err, res) => {
+        res.should.have.status(201);
+        res.body.should.be.a('object');
+        res.body.data.should.have.property('trip_id');
+        res.body.data.should.have.property('bus_id');
+        res.body.data.should.have.property('booking_id');
+        res.body.data.should.have.property('user_id');
+        res.body.data.should.have.property('trip_date');
+        res.body.data.should.have.property('seat_number');
+        res.body.data.should.have.property('first_name');
+        res.body.data.should.have.property('last_name');
+        res.body.data.should.have.property('email');
+        done();
+      });
+  });
+  it('it should not book a trip without a token', (done) => {
+    const profile = {
+      email: 'u@h.com',
+      firstName: 'kd',
+      lastName: 'ol',
+      userId: 11,
+      tripId: 230,
+      busId: 9,
+      seatNumber: 234,
+      tripDate: '2019-06-04',
+    };
+    chai.request(app)
+      .post('/api/v1/bookings')
+      .send(profile)
+      .end((err, res) => {
+        res.should.have.status(401);
+        res.body.should.be.a('object');
+        done();
+      });
+  });
+});
