@@ -1,6 +1,7 @@
 import { Pool } from 'pg';
 import jwt from 'jsonwebtoken';
 import 'dotenv/config';
+import moment from 'moment';
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -26,7 +27,7 @@ class api {
     try {
       const { rows } = await pool.query(text, values);
 
-      res.status(201).send({
+      return res.status(201).send({
         status: 'success',
         data: {
           user_id: rows[0].id,
@@ -35,7 +36,7 @@ class api {
         },
       });
     } catch (err) {
-      res.status(400).send({
+      return res.status(400).send({
         status: 'error',
         error: err,
       });
@@ -134,6 +135,48 @@ class api {
       return res.status(200).send({
         status: 'success',
         data: rows,
+      });
+    } catch (err) {
+      return res.status(400).send({
+        status: 'error',
+        error: err,
+      });
+    }
+  }
+
+  static async bookASeat(req, res) {
+    const {
+      email, firstName, lastName, tripId, userId, busId, token, tripDate, seatNumber,
+    } = req.body;
+
+    const createdOn = moment().format('YYYY-MM-DD');
+    const values = [tripId, userId, createdOn, busId, tripDate, seatNumber, email];
+    const text = `INSERT INTO booking (trip_id, user_id, created_on, bus_id, trip_date, seat_number, email)
+     VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING id`;
+
+    if (!token) {
+      return res.status(401).send({
+        status: 'error',
+        error: 'User unauthorized',
+      });
+    }
+
+    try {
+      const { rows } = await pool.query(text, values);
+
+      return res.status(201).send({
+        status: 'success',
+        data: {
+          booking_id: rows[0].id,
+          user_id: userId,
+          trip_id: tripId,
+          bus_id: busId,
+          trip_date: tripDate,
+          seat_number: seatNumber,
+          first_name: firstName,
+          last_name: lastName,
+          email,
+        },
       });
     } catch (err) {
       return res.status(400).send({
