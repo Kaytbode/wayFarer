@@ -26,7 +26,6 @@ class api {
 
     try {
       const { rows } = await pool.query(text, values);
-      await pool.end();
 
       return res.status(201).send({
         status: 'success',
@@ -51,7 +50,7 @@ class api {
     try {
       const { rows } = await pool.query(text, [email, password]);
       const user = rows[0];
-      await pool.end();
+
 
       if (!user) {
         return res.status(401).send({
@@ -99,7 +98,6 @@ class api {
                   VALUES($1, $2, $3, $4, $5, $6) RETURNING id`;
     try {
       const { rows } = await pool.query(text, values);
-      await pool.end();
 
       return res.status(201).send({
         status: 'success',
@@ -134,7 +132,6 @@ class api {
 
     try {
       const { rows } = await pool.query(getAllTrips);
-      await pool.end();
 
       return res.status(200).send({
         status: 'success',
@@ -167,7 +164,6 @@ class api {
 
     try {
       const { rows } = await pool.query(text, values);
-      await pool.end();
 
       return res.status(201).send({
         status: 'success',
@@ -209,7 +205,7 @@ class api {
 
     try {
       const { rows } = await pool.query(bookings);
-      await pool.end();
+
 
       return res.status(200).send({
         status: 'success',
