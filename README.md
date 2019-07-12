@@ -44,30 +44,30 @@ This resource `/api/v1/bookings/user/:bookingId` receives a `PATCH` **request** 
 
 ## Running the tests
 The tests confirms if the endpoints deliver the appropriate response and **HTTP** code, when given a valid request, and also to know if the error message delivered connotes the error.
-` A user signing up with all required parameters field will get a response similar to this`
-+ {
-    "status": "success",
-    "data": {
-        "user_id": 68,
-        "is_admin": false,
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJraXl0IiwiZW1haWwiOiJrb2l5dEB5YWhvby5jb20iLCJsYXN0TmFtZSI6ImtvIiwicGFzc3dvcmQiOiJydHRyIiwiaWF0IjoxNTYyOTIxNzg4LCJleHAiOjE1NjI5MjIzOTJ9.MEStHWv_e5MHedALI35Po5La2OJXsgpkukBWS8Xnyhg"
-    }
-}
+ *A user signing up with all required parameters field will get a response similar to this*
+    `{
+        "status": "success",
+        "data": {
+            "user_id": 68,
+            "is_admin": false,
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJraXl0IiwiZW1haWwiOiJrb2l5dEB5YWhvby5jb20iLCJsYXN0TmFtZSI6ImtvIiwicGFzc3dvcmQiOiJydHRyIiwiaWF0IjoxNTYyOTIxNzg4LCJleHAiOjE1NjI5MjIzOTJ9.MEStHWv_e5MHedALI35Po5La2OJXsgpkukBWS8Xnyhg"
+        }
+    }`
 
-`while a user trying to get trips without an authorized token gets a response similar to this`
-+ {
-    "status": "error",
-    "error": "User unauthorized"
-}
+*while a user trying to get trips without an authorized token gets a response similar to this*
+    `{
+        "status": "error",
+        "error": "User unauthorized"
+    }`
 
 ## Deployment
-[App](https://safe-stream-26808.herokuapp.com/) runs on heroku
+[App](https://safe-stream-26808.herokuapp.com/) is hosted on heroku
 
 ## Built With
 + [Express](https://expressjs.com/) - Backend server
 + [Postgresql](https://www.postgresql.org/download/) - Database
-+ [Mocha]() - To run test
++ [Mocha](https://mochajs.org/) - To run test
 
 ## Acknowledgements
-+ [Andela]() - For the project guide
-+ [Stack overflow]() - For the numerous unblocking :)
++ [Andela](https://andela.com/) - For the project guide
++ [Stack overflow](https://stackoverflow.com/) - For the numerous unblocking :)
