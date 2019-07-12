@@ -43,7 +43,7 @@ This resource `/api/v1/trips/origin/:origin` receives a `GET` **request** and se
 This resource `/api/v1/bookings/user/:bookingId` receives a `PATCH` **request** and sends an API **response** with the appropriate **HTTP** status code. Users can change seats after booking.
 
 ## Running the tests
-The tests confirms if the endpoints deliver the appropriate response and **HTTP** code, when given a valid request, and also to know if the error message delivered connotes the error.
+The tests confirms if the endpoints deliver the appropriate response and **HTTP** code, when given a valid request, and also to know if the error message delivered connotes the error.  
  *A user signing up with all required parameters field will get a response similar to this*
  ```
     {
