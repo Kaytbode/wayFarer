@@ -1,31 +1,37 @@
-import { Pool } from 'pg';
 import jwt from 'jsonwebtoken';
 import 'dotenv/config';
 import moment from 'moment';
-
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-});
+import pool from './index';
 
 class api {
-  static async createUser(req, res) {
-    const {
-      email, firstName, lastName, password,
-    } = req.body;
-    const isAdmin = false;
+  static generateToken(firstName, email, lastName, password, isAdmin) {
     const token = jwt.sign({
-      firstName, email, lastName, password,
+      firstName, email, lastName, password, isAdmin,
     },
     process.env.SECRET_KEY, {
       expiresIn: process.env.EXPIRY_SECONDS,
     });
 
-    const values = [email, firstName, lastName, password, token, isAdmin];
-    const text = `INSERT INTO users (email, first_name, last_name, password, token, is_admin)
-     VALUES($1, $2, $3, $4, $5, $6) RETURNING id`;
+    return token;
+  }
+
+  static async createUser(req, res) {
+    const {
+      email, firstName, lastName, password,
+    } = req.body;
+
+    const isAdmin = false;
+
+    const token = api.generateToken(firstName, email, lastName, password, isAdmin);
+
+    const profile = {
+      text: `INSERT INTO users (email, first_name, last_name, password, token, is_admin)
+      VALUES($1, $2, $3, $4, $5, $6) RETURNING id`,
+      values: [email, firstName, lastName, password, token, isAdmin],
+    };
 
     try {
-      const { rows } = await pool.query(text, values);
+      const { rows } = await pool.query(profile);
 
       return res.status(201).send({
         status: 'success',
@@ -44,13 +50,28 @@ class api {
   }
 
   static async confirmUser(req, res) {
-    const text = 'SELECT * FROM users WHERE email = $1 AND password = $2';
-    const { email, password } = req.body;
+    const { token } = req.body;
+
+    if (!token) {
+      return res.status(401).send({
+        status: 'error',
+        error: 'User unauthorized',
+      });
+    }
+
+    const payload = jwt.decode(token);
+
+    const { email, password } = payload;
+
+    const profile = {
+      text: 'SELECT * FROM users WHERE email = $1 AND password = $2',
+      values: [email, password],
+    };
 
     try {
-      const { rows } = await pool.query(text, [email, password]);
-      const user = rows[0];
+      const { rows } = await pool.query(profile);
 
+      const user = rows[0];
 
       if (!user) {
         return res.status(401).send({
@@ -77,7 +98,7 @@ class api {
 
   static async createTrip(req, res) {
     const {
-      isAdmin, token, busId, origin, destination, tripDate, fare, status,
+      token, busId, origin, destination, tripDate, fare, status,
     } = req.body;
 
     if (!token) {
@@ -87,17 +108,25 @@ class api {
       });
     }
 
+    const payload = jwt.decode(token);
+
+    const { isAdmin } = payload;
+
     if (!JSON.parse(isAdmin)) {
       return res.status(403).send({
         status: 'error',
         error: 'You do not have the permission to create trip',
       });
     }
-    const values = [busId, origin, destination, tripDate, fare, status];
-    const text = `INSERT INTO trips (bus_id, origin, destination, trip_date, fare, status) 
-                  VALUES($1, $2, $3, $4, $5, $6) RETURNING id`;
+
+    const trip = {
+      text: `INSERT INTO trips (bus_id, origin, destination, trip_date, fare, status) 
+      VALUES($1, $2, $3, $4, $5, $6) RETURNING id`,
+      values: [busId, origin, destination, tripDate, fare, status],
+    };
+
     try {
-      const { rows } = await pool.query(text, values);
+      const { rows } = await pool.query(trip);
 
       return res.status(201).send({
         status: 'success',
@@ -121,6 +150,7 @@ class api {
 
   static async getTrips(req, res) {
     const getAllTrips = 'SELECT * FROM trips';
+
     const { token } = req.body;
 
     if (!token) {
@@ -147,13 +177,8 @@ class api {
 
   static async bookASeat(req, res) {
     const {
-      email, firstName, lastName, tripId, userId, busId, token, tripDate, seatNumber,
+      tripId, userId, busId, token, tripDate, seatNumber,
     } = req.body;
-
-    const createdOn = moment().format('YYYY-MM-DD');
-    const values = [tripId, userId, createdOn, busId, tripDate, seatNumber, email];
-    const text = `INSERT INTO booking (trip_id, user_id, created_on, bus_id, trip_date, seat_number, email)
-     VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING id`;
 
     if (!token) {
       return res.status(401).send({
@@ -162,8 +187,20 @@ class api {
       });
     }
 
+    const payload = jwt.decode(token);
+
+    const { email, firstName, lastName } = payload;
+
+    const createdOn = moment().format('YYYY-MM-DD');
+
+    const booking = {
+      text: `INSERT INTO booking (trip_id, user_id, created_on, bus_id, trip_date, seat_number, email)
+      VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING id`,
+      values: [tripId, userId, createdOn, busId, tripDate, seatNumber, email],
+    };
+
     try {
-      const { rows } = await pool.query(text, values);
+      const { rows } = await pool.query(booking);
 
       return res.status(201).send({
         status: 'success',
@@ -188,11 +225,7 @@ class api {
   }
 
   static async viewBookings(req, res) {
-    const { token, isAdmin, userId } = req.body;
-    const myBookings = {
-      text: 'SELECT * FROM booking WHERE user_id = $1',
-      values: [userId],
-    };
+    const { token, userId } = req.body;
 
     if (!token) {
       return res.status(401).send({
@@ -201,11 +234,19 @@ class api {
       });
     }
 
-    const bookings = JSON.parse(isAdmin) ? 'SELECT * FROM booking' : myBookings;
+    const payload = jwt.decode(token);
+
+    const { isAdmin } = payload;
+
+    const userBookings = {
+      text: 'SELECT * FROM booking WHERE user_id = $1',
+      values: [userId],
+    };
+
+    const bookings = JSON.parse(isAdmin) ? 'SELECT * FROM booking' : userBookings;
 
     try {
       const { rows } = await pool.query(bookings);
-
 
       return res.status(200).send({
         status: 'success',
@@ -221,7 +262,9 @@ class api {
 
   static async deleteBookings(req, res) {
     const { token, userId } = req.body;
+
     const { bookingId } = req.params;
+
     const myBookings = {
       text: 'DELETE FROM booking WHERE user_id = $1 AND id = $2 RETURNING *',
       values: [+userId, +bookingId],
@@ -237,7 +280,7 @@ class api {
     if (!userId) {
       return res.status(400).send({
         status: 'error',
-        error: 'UserId missing',
+        error: 'User id missing',
       });
     }
 
@@ -263,8 +306,10 @@ class api {
   }
 
   static async cancelTrip(req, res) {
-    const { token, isAdmin } = req.body;
+    const { token } = req.body;
+
     const { tripId } = req.params;
+
     const trip = {
       text: 'UPDATE trips SET status = $1 WHERE id = $2 RETURNING *',
       values: ['cancelled', +tripId],
@@ -276,6 +321,10 @@ class api {
         error: 'User unauthorized',
       });
     }
+
+    const payload = jwt.decode(token);
+
+    const { isAdmin } = payload;
 
     if (!JSON.parse(isAdmin)) {
       return res.status(403).send({
@@ -308,7 +357,9 @@ class api {
 
   static async getTripsByDest(req, res) {
     const { token } = req.body;
+
     const { destination } = req.params;
+
     const trips = {
       text: 'SELECT * FROM trips WHERE destination = $1',
       values: [destination],
@@ -338,7 +389,9 @@ class api {
 
   static async getTripsByOrigin(req, res) {
     const { token } = req.body;
+
     const { origin } = req.params;
+
     const trips = {
       text: 'SELECT * FROM trips WHERE origin = $1',
       values: [origin],
@@ -368,7 +421,9 @@ class api {
 
   static async changeSeat(req, res) {
     const { token, seatNumber, userId } = req.body;
+
     const { bookingId } = req.params;
+
     const newSeat = {
       text: 'UPDATE booking SET seat_number = $1 WHERE id = $2  AND user_id = $3 RETURNING *',
       values: [+seatNumber, +bookingId, +userId],

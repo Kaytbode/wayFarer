@@ -44,7 +44,8 @@ This resource `/api/v1/bookings/user/:bookingId` receives a `PATCH` **request** 
 
 ## Running the tests
 The tests confirms if the endpoints deliver the appropriate response and **HTTP** code, when given a valid request, and also to know if the error message delivered connotes the error.  
- *A user signing up with all required parameters field will get a response similar to this*
+  
+ **A user signing up with all required parameters field will get a response similar to this**
  ```
     {
         "status": "success",
@@ -55,7 +56,7 @@ The tests confirms if the endpoints deliver the appropriate response and **HTTP*
         }
     }
 ```
-*while a user trying to get trips without an authorized token gets a response similar to this*
+**while a user trying to get trips without an authorized token gets a response similar to this**
 ```
     {
         "status": "error",
