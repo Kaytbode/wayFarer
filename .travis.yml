@@ -13,7 +13,7 @@ env:
   - DB_USER=postgres DB_HOST=localhost DB_DATABASE=api DB_PW=Tope1711 DB_PORT=5432 SECRET_KEY=bubbagumpshrimp EXPIRY_SECONDS=604800 PORT=3000
 
 before_script:
-  - cp database.yml.travis database.yml
+  - psql -c 'create database api;' -U postgres
 
 cache:
   directories:
