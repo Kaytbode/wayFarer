@@ -88,8 +88,12 @@ class api {
 
   static async createTrip(req, res) {
     const {
-      token, busId, origin, destination, tripDate, fare,
+      token, origin, destination, fare,
     } = req.body;
+
+    const busId = req.body.bus_id;
+
+    const tripDate = req.body.trip_date;
 
     if (!token) {
       return res.status(401).send({
@@ -165,7 +169,9 @@ class api {
   }
 
   static async bookASeat(req, res) {
-    const { tripId, token } = req.body;
+    const { token } = req.body;
+
+    const tripId = req.body.trip_id;
 
     if (!token) {
       return res.status(401).send({
@@ -308,7 +314,7 @@ class api {
 
   static async deleteBooking(req, res) {
     const { token } = req.body;
-
+    console.log(req.params);
     const { bookingId } = req.params;
 
     if (!token) {
@@ -359,7 +365,7 @@ class api {
 
   static async cancelTrip(req, res) {
     const { token } = req.body;
-
+    console.log(req.params);
     const { tripId } = req.params;
 
     const trip = {
