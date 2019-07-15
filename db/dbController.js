@@ -238,9 +238,10 @@ class api {
       const seatNumber = allSeats.find(seat => seatsBooked.indexOf(seat) < 0);
       // Now book the trip
       const newBooking = {
-        text: `INSERT INTO booking (trip_id, user_id, created_on, bus_id, trip_date, seat_number, email)
-        VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING id`,
-        values: [tripId, userId, createdOn, busId, tripDate, seatNumber, email],
+        text: `INSERT INTO booking (user_id, trip_id, created_on, bus_id, trip_date, seat_number, 
+          first_name, last_name, email) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id`,
+        values: [tripId, userId, createdOn, busId, tripDate,
+          seatNumber, firstName, lastName, email],
       };
 
       ({ rows } = await pool.query(newBooking));
