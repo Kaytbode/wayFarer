@@ -315,8 +315,8 @@ class api {
 
   static async deleteBooking(req, res) {
     const { token } = req.body;
-    console.log(req.params);
-    const bookingId = req.params['booking-id'];
+
+    const bookingId = req.params.booking_id;
 
     if (!token) {
       return res.status(401).send({
@@ -366,8 +366,8 @@ class api {
 
   static async cancelTrip(req, res) {
     const { token } = req.body;
-    console.log(req.params);
-    const tripId = req.params['trip-id'];
+
+    const tripId = req.params.trip_id;
 
     const trip = {
       text: 'UPDATE trips SET status = $1 WHERE id = $2 RETURNING *',
