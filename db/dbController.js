@@ -172,7 +172,7 @@ class api {
     const { token } = req.body;
 
     const tripId = req.body.trip_id;
-    console.log(req.body);
+
     if (!token) {
       return res.status(401).send({
         status: 'error',
@@ -270,7 +270,7 @@ class api {
 
   static async viewBookings(req, res) {
     const { token } = req.body;
-    console.log(token);
+
     if (!token) {
       return res.status(401).send({
         status: 'error',
@@ -281,7 +281,7 @@ class api {
     const payload = jwt.decode(token);
 
     const { isAdmin, email } = payload;
-    console.log(payload);
+
     const findUserId = {
       text: 'SELECT * FROM users WHERE email = $1',
       values: [email],
