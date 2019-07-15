@@ -166,14 +166,6 @@ class api {
   static async bookASeat(req, res) {
     const { tripId, token } = req.body;
 
-    let userId;
-
-    let busId;
-
-    let tripDate;
-
-    let seatNumber;
-
     if (!token) {
       return res.status(401).send({
         status: 'error',
@@ -213,21 +205,30 @@ class api {
       // get bus id and trip date from trip table
       let { rows } = await pool.query(trip);
 
-      busId = rows[0].bus_id;
+      const busId = rows[0].bus_id;
 
-      tripDate = rows[0].trip_date;
+      const tripDate = rows[0].trip_date;
+
+      const getBus = {
+        text: 'SELECT * FROM buses WHERE id = $1',
+        values: [busId],
+      };
+
+      ({ rows } = await pool.query(getBus));
+
+      const { capacity } = rows[0];
       // get user id from users table
       ({ rows } = await pool.query(user));
 
-      userId = rows[0].id;
+      const userId = rows[0].id;
       // get the seats booked on a trip from booking table
       ({ rows } = await pool.query(getSeatsBooked));
 
       const seatsBooked = rows.map(booking => booking.seat_number);
       // Assume bus contains 500 seats
-      const allSeats = Array.from({ length: 499 }, (v, i) => i + 1);
+      const allSeats = Array.from({ length: capacity }, (v, i) => i + 1);
       // Find an empty seat
-      seatNumber = allSeats.find(seat => seatsBooked.indexOf(seat) < 0);
+      const seatNumber = allSeats.find(seat => seatsBooked.indexOf(seat) < 0);
       // Now book the trip
       const newBooking = {
         text: `INSERT INTO booking (trip_id, user_id, created_on, bus_id, trip_date, seat_number, email)
@@ -493,6 +494,8 @@ class api {
 
       const { email } = rows[0];
 
+      const busId = rows[0].bus_id;
+
       const getUserId = {
         text: 'SELECT * FROM users WHERE email = $1',
         values: [email],
@@ -501,6 +504,15 @@ class api {
       ({ rows } = await pool.query(getUserId));
 
       const userId = rows[0].id;
+
+      const getBus = {
+        text: 'SELECT * FROM buses WHERE id = $1',
+        values: [busId],
+      };
+
+      ({ rows } = await pool.query(getBus));
+
+      const { capacity } = rows[0];
 
       const getSeatsBooked = {
         text: 'SELECT * FROM booking WHERE trip_id = $1',
@@ -511,7 +523,7 @@ class api {
 
       const seatsBooked = rows.map(booking => booking.seat_number);
       // Assume bus contains 500 seats
-      const allSeats = Array.from({ length: 499 }, (v, i) => i + 1);
+      const allSeats = Array.from({ length: capacity }, (v, i) => i + 1);
       // Find an empty seat
       const seatNumber = allSeats.find(seat => seatsBooked.indexOf(seat) < 0);
       // change seat

@@ -273,7 +273,7 @@ describe('Delete bookings', () => {
       token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJhZG0iLCJlbWFpbCI6ImFjZkB5YWhvby5jb20iLCJsYXN0TmFtZSI6ImFpbiIsInBhc3N3b3JkIjoiMTJlNCIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE1NjMxODUyOTYsImV4cCI6MTU2MzE4NTkwMH0.tiAjmwirvxMhGhBqbxlCQCQ3T17zn2C',
     };
     chai.request(app)
-      .delete('/bookings/13')
+      .delete('/bookings/2')
       .send(profile)
       .end((err, res) => {
         res.should.have.status(200);
@@ -287,7 +287,7 @@ describe('Delete bookings', () => {
 
     };
     chai.request(app)
-      .delete('/bookings/14')
+      .delete('/bookings/2')
       .send(profile)
       .end((err, res) => {
         res.should.have.status(401);
@@ -318,7 +318,7 @@ describe('Cancel trips', () => {
       token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJhZG0iLCJlbWFpbCI6ImFjZkB5YWhvby5jb20iLCJsYXN0TmFtZSI6ImFpbiIsInBhc3N3b3JkIjoiMTJlNCIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE1NjMxODUyOTYsImV4cCI6MTU2MzE4NTkwMH0.tiAjmwirvxMhGhBqbxlCQCQ3T17zn2C',
     };
     chai.request(app)
-      .patch('/api/v1/trips/2')
+      .patch('/trips/2')
       .send(profile)
       .end((err, res) => {
         res.should.have.status(403);
