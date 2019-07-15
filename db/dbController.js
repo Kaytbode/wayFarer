@@ -20,6 +20,7 @@ class api {
       email, firstName, lastName, password,
     } = req.body;
 
+    console.log(req.body);
     const isAdmin = false;
 
     const token = api.generateToken(firstName, email, lastName, password, isAdmin);
