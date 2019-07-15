@@ -16,15 +16,15 @@ class api {
   }
 
   static async createUser(req, res) {
-    const {
-      email, firstName, lastName, password,
-    } = req.body;
+    const { email, password } = req.body;
 
-    console.log(req.body);
+    const firstName = req.body.first_name;
+    const lastName = req.body.last_name;
+
     const isAdmin = false;
 
     const token = api.generateToken(firstName, email, lastName, password, isAdmin);
-    console.log(token);
+
     const profile = {
       text: `INSERT INTO users (email, first_name, last_name, password, token, is_admin)
       VALUES($1, $2, $3, $4, $5, $6) RETURNING id`,
@@ -33,7 +33,6 @@ class api {
 
     try {
       const { rows } = await pool.query(profile);
-      console.log(rows);
 
       return res.status(201).send({
         status: 'success',
@@ -53,7 +52,7 @@ class api {
 
   static async confirmUser(req, res) {
     const { email, password } = req.body;
-    console.log(req.body);
+
     const profile = {
       text: 'SELECT * FROM users WHERE email = $1 AND password = $2',
       values: [email, password],
