@@ -270,7 +270,7 @@ class api {
 
   static async viewBookings(req, res) {
     const { token } = req.body;
-
+    console.log(token);
     if (!token) {
       return res.status(401).send({
         status: 'error',
