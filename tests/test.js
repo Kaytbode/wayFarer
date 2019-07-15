@@ -11,7 +11,7 @@ chai.use(chaihttp);
 describe('sign up user', () => {
   it('it should not SIGN UP a user without all required fields', (done) => {
     const profile = {
-      email: 'ac@gmail.com',
+      email: 'acd@gmail.com',
       firstName: 'Joh',
       lastName: 'Doe',
     };
@@ -27,7 +27,7 @@ describe('sign up user', () => {
   });
   it('it should SIGN UP a user that meets all criteria', (done) => {
     const profile = {
-      email: 'ac@gmail.com',
+      email: 'acd@gmail.com',
       firstName: 'John',
       lastName: 'Doe',
       password: '1234567',
@@ -92,7 +92,7 @@ describe('Admin can create trip', () => {
       destination: 'agege',
       tripDate: '05-07-2019',
       fare: 100.45,
-      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJrYXRlIiwiZW1haWwiOiJhYmNAeWFob28uY29tIiwibGFzdE5hbWUiOiJjaGlsbCIsInBhc3N3b3JkIjoiMTIzNDU2IiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTU2MjU5Nzc2OCwiZXhwIjoxNTYyNTk4MzcyfQ.DBlpLHrge2j_pa7M1RXvG',
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJraXl0IiwiZW1haWwiOiJraXl0QHlhaG9vLmNvbSIsImxhc3ROYW1lIjoia28iLCJwYXNzd29yZCI6InJ0dHIiLCJpYXQiOjE1NjI2OTU1MzgsImV4cCI6MTU2MjY5NjE0Mn0.RC88vMurFNZVaJi4kvP1mTxm1r4dCLKgzuH6huIl91M',
     };
 
     chai.request(app)
@@ -130,7 +130,6 @@ describe('Admin can create trip', () => {
       destination: 'mushin',
       tripDate: '05-07-2019',
       fare: 100.45,
-      isAdmin: true,
       token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AeWFob28uY29tIiwibGFzdE5hbWUiOiJhZG1pbiIsInBhc3N3b3JkIjoiYWRtaW4iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NjI5NDMyNzYsImV4cCI6MTU2Mjk0Mzg4MH0.2OortBYCqgHcgSx7fmDh',
     };
     chai.request(app)
@@ -154,7 +153,7 @@ describe('Admin can create trip', () => {
 describe('Users can get all trips', () => {
   it('it should retrieve all trips', (done) => {
     const profile = {
-      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJrYXRlIiwiZW1haWwiOiJhYmNAeWFob28uY29tIiwibGFzdE5hbWUiOiJjaGlsbCIsInBhc3N3b3JkIjoiMTIzNDU2IiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTU2MjU5Nzc2OCwiZXhwIjoxNTYyNTk4MzcyfQ.DBlpLHrge2j_pa7M1RXvG',
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJhZG0iLCJlbWFpbCI6ImFjZkB5YWhvby5jb20iLCJsYXN0TmFtZSI6ImFpbiIsInBhc3N3b3JkIjoiMTJlNCIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE1NjMxODUyOTYsImV4cCI6MTU2MzE4NTkwMH0.tiAjmwirvxMhGhBqbxlCQCQ3T17zn2C',
     };
     chai.request(app)
       .get('/trips')
@@ -186,8 +185,8 @@ describe('Users can get all trips', () => {
 describe('Users can book trips', () => {
   it('it should book a trip if all parameters are available', (done) => {
     const profile = {
-      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJrYXRlIiwiZW1haWwiOiJhYmNAeWFob28uY29tIiwibGFzdE5hbWUiOiJjaGlsbCIsInBhc3N3b3JkIjoiMTIzNDU2IiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTU2MjU5Nzc2OCwiZXhwIjoxNTYyNTk4MzcyfQ.DBlpLHrge2j_pa7M1RXvG',
-      tripId: 259,
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJhZG0iLCJlbWFpbCI6ImFjZkB5YWhvby5jb20iLCJsYXN0TmFtZSI6ImFpbiIsInBhc3N3b3JkIjoiMTJlNCIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE1NjMxODUyOTYsImV4cCI6MTU2MzE4NTkwMH0.tiAjmwirvxMhGhBqbxlCQCQ3T17zn2C',
+      tripId: 2,
     };
     chai.request(app)
       .post('/bookings')
@@ -209,7 +208,7 @@ describe('Users can book trips', () => {
   });
   it('it should not book a trip without a token', (done) => {
     const profile = {
-      tripId: 230,
+      tripId: 2,
     };
     chai.request(app)
       .post('/bookings')
@@ -240,7 +239,7 @@ describe('View bookings', () => {
   });
   it('User can view his/her bookings', (done) => {
     const profile = {
-      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJrYXRlIiwiZW1haWwiOiJhYmNAeWFob28uY29tIiwibGFzdE5hbWUiOiJjaGlsbCIsInBhc3N3b3JkIjoiMTIzNDU2IiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTU2MjU5Nzc2OCwiZXhwIjoxNTYyNTk4MzcyfQ.DBlpLHrge2j_pa7M1RXvG',
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJhZG0iLCJlbWFpbCI6ImFjZkB5YWhvby5jb20iLCJsYXN0TmFtZSI6ImFpbiIsInBhc3N3b3JkIjoiMTJlNCIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE1NjMxODUyOTYsImV4cCI6MTU2MzE4NTkwMH0.tiAjmwirvxMhGhBqbxlCQCQ3T17zn2C',
     };
     chai.request(app)
       .get('/bookings')
@@ -271,7 +270,7 @@ describe('View bookings', () => {
 describe('Delete bookings', () => {
   it('user can delete booking', (done) => {
     const profile = {
-      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJrYXRlIiwiZW1haWwiOiJhYmNAeWFob28uY29tIiwibGFzdE5hbWUiOiJjaGlsbCIsInBhc3N3b3JkIjoiMTIzNDU2IiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTU2MjU5Nzc2OCwiZXhwIjoxNTYyNTk4MzcyfQ.DBlpLHrge2j_pa7M1RXvG',
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJhZG0iLCJlbWFpbCI6ImFjZkB5YWhvby5jb20iLCJsYXN0TmFtZSI6ImFpbiIsInBhc3N3b3JkIjoiMTJlNCIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE1NjMxODUyOTYsImV4cCI6MTU2MzE4NTkwMH0.tiAjmwirvxMhGhBqbxlCQCQ3T17zn2C',
     };
     chai.request(app)
       .delete('/bookings/13')
@@ -305,7 +304,7 @@ describe('Cancel trips', () => {
       token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AeWFob28uY29tIiwibGFzdE5hbWUiOiJhZG1pbiIsInBhc3N3b3JkIjoiYWRtaW4iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NjI5NDMyNzYsImV4cCI6MTU2Mjk0Mzg4MH0.2OortBYCqgHcgSx7fmDh',
     };
     chai.request(app)
-      .patch('/trips/3')
+      .patch('/trips/2')
       .send(profile)
       .end((err, res) => {
         res.should.have.status(200);
@@ -316,10 +315,10 @@ describe('Cancel trips', () => {
   });
   it('Non admins cannot cancel trips', (done) => {
     const profile = {
-      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJrYXRlIiwiZW1haWwiOiJhYmNAeWFob28uY29tIiwibGFzdE5hbWUiOiJjaGlsbCIsInBhc3N3b3JkIjoiMTIzNDU2IiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTU2MjU5Nzc2OCwiZXhwIjoxNTYyNTk4MzcyfQ.DBlpLHrge2j_pa7M1RXvG',
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJhZG0iLCJlbWFpbCI6ImFjZkB5YWhvby5jb20iLCJsYXN0TmFtZSI6ImFpbiIsInBhc3N3b3JkIjoiMTJlNCIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE1NjMxODUyOTYsImV4cCI6MTU2MzE4NTkwMH0.tiAjmwirvxMhGhBqbxlCQCQ3T17zn2C',
     };
     chai.request(app)
-      .patch('/api/v1/trips/9')
+      .patch('/api/v1/trips/2')
       .send(profile)
       .end((err, res) => {
         res.should.have.status(403);
