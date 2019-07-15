@@ -296,7 +296,7 @@ class api {
         text: 'SELECT * FROM booking WHERE user_id = $1',
         values: [userId],
       };
-      
+
       const bookings = JSON.parse(isAdmin) ? 'SELECT * FROM booking' : userBookings;
 
       ({ rows } = await pool.query(bookings));
