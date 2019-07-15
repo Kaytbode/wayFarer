@@ -12,8 +12,8 @@ router.post('/trips', api.createTrip);
 router.get('/trips', api.getTrips);
 router.post('/bookings', api.bookASeat);
 router.get('/bookings', api.viewBookings);
-router.delete('/bookings/<:booking_id>', api.deleteBooking);
-router.patch('/trips/<:trip_id>', api.cancelTrip);
+router.delete('/bookings/:booking_id', api.deleteBooking);
+router.patch('/trips/:trip_id', api.cancelTrip);
 
 // Optional features
 router.get('/api/v1/trips/destination/:destination', api.getTripsByDest);

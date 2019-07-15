@@ -125,7 +125,7 @@ class api {
       return res.status(201).send({
         status: 'success',
         data: {
-          trip_id: rows[0].id,
+          id: rows[0].id,
           bus_id: busId,
           origin,
           destination,
@@ -315,8 +315,7 @@ class api {
 
   static async deleteBooking(req, res) {
     const { token } = req.body;
-    console.log(req.body);
-    console.log(req.params);
+
     const bookingId = req.params.booking_id;
 
     if (!token) {
