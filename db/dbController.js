@@ -172,6 +172,7 @@ class api {
     const { token } = req.body;
 
     const tripId = req.body.trip_id;
+    console.log(req.body.trip_id);
 
     if (!token) {
       return res.status(401).send({
