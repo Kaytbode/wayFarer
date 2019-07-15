@@ -289,7 +289,7 @@ class api {
 
     try {
       let { rows } = await pool.query(findUserId);
-      console.log(rows);
+
       const userId = rows[0].id;
 
       const userBookings = {
