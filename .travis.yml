@@ -7,7 +7,7 @@ services:
   - postgresql
 
 env:
-  - DB_USER=igekybyt DB_HOST=otto.db.elephantsql.com (otto-01) DB_DATABASE=igekybyt DB_PW=bq3Fh6DILuXf7TVJqSSXIeGXGSBzncdo DB_PORT=5432 SECRET_KEY=bubbagumpshrimp EXPIRY_SECONDS=604800 PORT=3000
+  - DB_USER=postgres DB_HOST=localhost DB_DATABASE=api DB_PW=Tope1711 DB_PORT=5432 SECRET_KEY=bubbagumpshrimp EXPIRY_SECONDS=604800 PORT=3000
 
 cache:
   directories:
