@@ -24,7 +24,7 @@ class api {
     const isAdmin = false;
 
     const token = api.generateToken(firstName, email, lastName, password, isAdmin);
-
+    console.log(token);
     const profile = {
       text: `INSERT INTO users (email, first_name, last_name, password, token, is_admin)
       VALUES($1, $2, $3, $4, $5, $6) RETURNING id`,
