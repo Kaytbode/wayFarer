@@ -315,7 +315,8 @@ class api {
 
   static async deleteBooking(req, res) {
     const { token } = req.body;
-
+    console.log(req.body);
+    console.log(req.params);
     const bookingId = req.params.booking_id;
 
     if (!token) {
