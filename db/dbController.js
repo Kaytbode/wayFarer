@@ -249,7 +249,7 @@ class api {
       return res.status(201).send({
         status: 'success',
         data: {
-          booking_id: rows[0].id,
+          id: rows[0].id,
           user_id: userId,
           trip_id: tripId,
           bus_id: busId,
