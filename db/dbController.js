@@ -289,7 +289,7 @@ class api {
 
     try {
       let { rows } = await pool.query(findUserId);
-
+      console.log(rows);
       const userId = rows[0].id;
 
       const userBookings = {
@@ -300,7 +300,7 @@ class api {
       const bookings = JSON.parse(isAdmin) ? 'SELECT * FROM booking' : userBookings;
 
       ({ rows } = await pool.query(bookings));
-      console.log(rows);
+
       return res.status(200).send({
         status: 'success',
         data: rows,
