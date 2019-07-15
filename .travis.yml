@@ -6,14 +6,8 @@ node_js:
 services:
   - postgresql
 
-addons:
-  postgresql: "11.3"
-
 env:
   - DB_USER=igekybyt DB_HOST=otto.db.elephantsql.com (otto-01) DB_DATABASE=igekybyt DB_PW=bq3Fh6DILuXf7TVJqSSXIeGXGSBzncdo DB_PORT=5432 SECRET_KEY=bubbagumpshrimp EXPIRY_SECONDS=604800 PORT=3000
-
-before_script:
-  - psql -c 'create database api;' -U postgres
 
 cache:
   directories:
