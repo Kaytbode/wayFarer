@@ -110,7 +110,7 @@ class api {
 
     const trip = {
       text: `INSERT INTO trips (bus_id, origin, destination, trip_date, fare) 
-      VALUES($1, $2, $3, $4, $5, $6) RETURNING id`,
+      VALUES($1, $2, $3, $4, $5) RETURNING id`,
       values: [busId, origin, destination, tripDate, fare],
     };
 
@@ -481,28 +481,26 @@ class api {
       });
     }
 
-    const payload = jwt.decode(token);
-
-    const { email } = payload;
-
-    const getUserId = {
-      text: 'SELECT * FROM users WHERE email = $1',
-      values: [email],
-    };
-
     const getTripId = {
       text: 'SELECT * FROM booking WHERE id = $1',
       values: [bookingId],
     };
 
     try {
-      let { rows } = await pool.query(getUserId);
-
-      const userId = rows[0].id;
-
-      ({ rows } = await pool.query(getTripId));
+      let { rows } = await pool.query(getTripId);
 
       const tripId = rows[0].trip_id;
+
+      const { email } = rows[0];
+
+      const getUserId = {
+        text: 'SELECT * FROM users WHERE email = $1',
+        values: [email],
+      };
+
+      ({ rows } = await pool.query(getUserId));
+
+      const userId = rows[0].id;
 
       const getSeatsBooked = {
         text: 'SELECT * FROM booking WHERE trip_id = $1',
