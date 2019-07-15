@@ -333,7 +333,7 @@ class api {
 
       const myBookings = {
         text: 'DELETE FROM booking WHERE user_id = $1 AND id = $2 RETURNING *',
-        values: [+userId, +bookingId],
+        values: [userId, bookingId],
       };
 
       ({ rows } = await pool.query(myBookings));
@@ -363,7 +363,7 @@ class api {
 
     const trip = {
       text: 'UPDATE trips SET status = $1 WHERE id = $2 RETURNING *',
-      values: ['cancelled', +tripId],
+      values: ['cancelled', tripId],
     };
 
     if (!token) {
