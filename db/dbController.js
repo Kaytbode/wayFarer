@@ -281,7 +281,7 @@ class api {
     const payload = jwt.decode(token);
 
     const { isAdmin, email } = payload;
-
+    console.log(payload);
     const findUserId = {
       text: 'SELECT * FROM users WHERE email = $1',
       values: [email],
@@ -296,7 +296,7 @@ class api {
         text: 'SELECT * FROM booking WHERE user_id = $1',
         values: [userId],
       };
-
+      
       const bookings = JSON.parse(isAdmin) ? 'SELECT * FROM booking' : userBookings;
 
       ({ rows } = await pool.query(bookings));
