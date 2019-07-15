@@ -315,7 +315,7 @@ class api {
 
   static async deleteBooking(req, res) {
     const { token } = req.body;
-
+    console.log(req.params);
     const bookingId = req.params['booking-id'];
 
     if (!token) {
@@ -366,7 +366,7 @@ class api {
 
   static async cancelTrip(req, res) {
     const { token } = req.body;
-
+    console.log(req.params);
     const tripId = req.params['trip-id'];
 
     const trip = {
