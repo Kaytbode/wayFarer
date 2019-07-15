@@ -8,9 +8,9 @@ class api {
     const token = jwt.sign({
       firstName, email, lastName, password, isAdmin,
     },
-    process.env.SECRET_KEY, {
-      expiresIn: process.env.EXPIRY_SECONDS,
-    });
+      process.env.SECRET_KEY, {
+        expiresIn: process.env.EXPIRY_SECONDS,
+      });
 
     return token;
   }
@@ -50,18 +50,7 @@ class api {
   }
 
   static async confirmUser(req, res) {
-    const { token } = req.body;
-
-    if (!token) {
-      return res.status(401).send({
-        status: 'error',
-        error: 'User unauthorized',
-      });
-    }
-
-    const payload = jwt.decode(token);
-
-    const { email, password } = payload;
+    const { email, password } = req.body;
 
     const profile = {
       text: 'SELECT * FROM users WHERE email = $1 AND password = $2',
@@ -98,7 +87,7 @@ class api {
 
   static async createTrip(req, res) {
     const {
-      token, busId, origin, destination, tripDate, fare, status,
+      token, busId, origin, destination, tripDate, fare,
     } = req.body;
 
     if (!token) {
@@ -120,9 +109,9 @@ class api {
     }
 
     const trip = {
-      text: `INSERT INTO trips (bus_id, origin, destination, trip_date, fare, status) 
+      text: `INSERT INTO trips (bus_id, origin, destination, trip_date, fare) 
       VALUES($1, $2, $3, $4, $5, $6) RETURNING id`,
-      values: [busId, origin, destination, tripDate, fare, status],
+      values: [busId, origin, destination, tripDate, fare],
     };
 
     try {
@@ -137,7 +126,6 @@ class api {
           destination,
           trip_date: tripDate,
           fare,
-          status,
         },
       });
     } catch (err) {
@@ -176,14 +164,27 @@ class api {
   }
 
   static async bookASeat(req, res) {
-    const {
-      tripId, userId, busId, token, tripDate, seatNumber,
-    } = req.body;
+    const { tripId, token } = req.body;
+
+    let userId;
+
+    let busId;
+
+    let tripDate;
+
+    let seatNumber;
 
     if (!token) {
       return res.status(401).send({
         status: 'error',
         error: 'User unauthorized',
+      });
+    }
+
+    if (!tripId) {
+      return res.status(400).send({
+        status: 'error',
+        error: 'Please provide a trip id',
       });
     }
 
@@ -193,14 +194,48 @@ class api {
 
     const createdOn = moment().format('YYYY-MM-DD');
 
-    const booking = {
-      text: `INSERT INTO booking (trip_id, user_id, created_on, bus_id, trip_date, seat_number, email)
-      VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING id`,
-      values: [tripId, userId, createdOn, busId, tripDate, seatNumber, email],
+    const trip = {
+      text: 'SELECT * FROM trips WHERE id = $1',
+      values: [tripId],
+    };
+
+    const user = {
+      text: 'SELECT * FROM users WHERE email = $1',
+      values: [email],
+    };
+
+    const getSeatsBooked = {
+      text: 'SELECT * FROM booking WHERE trip_id = $1',
+      values: [tripId],
     };
 
     try {
-      const { rows } = await pool.query(booking);
+      // get bus id and trip date from trip table
+      let { rows } = await pool.query(trip);
+
+      busId = rows[0].bus_id;
+
+      tripDate = rows[0].trip_date;
+      // get user id from users table
+      ({ rows } = await pool.query(user));
+
+      userId = rows[0].id;
+      // get the seats booked on a trip from booking table
+      ({ rows } = await pool.query(getSeatsBooked));
+
+      const seatsBooked = rows.map(booking => booking.seat_number);
+      // Assume bus contains 500 seats
+      const allSeats = Array.from({ length: 499 }, (v, i) => i + 1);
+      // Find an empty seat
+      seatNumber = allSeats.find(seat => seatsBooked.indexOf(seat) < 0);
+      // Now book the trip
+      const newBooking = {
+        text: `INSERT INTO booking (trip_id, user_id, created_on, bus_id, trip_date, seat_number, email)
+        VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING id`,
+        values: [tripId, userId, createdOn, busId, tripDate, seatNumber, email],
+      };
+
+      ({ rows } = await pool.query(newBooking));
 
       return res.status(201).send({
         status: 'success',
@@ -225,7 +260,7 @@ class api {
   }
 
   static async viewBookings(req, res) {
-    const { token, userId } = req.body;
+    const { token } = req.body;
 
     if (!token) {
       return res.status(401).send({
@@ -236,17 +271,26 @@ class api {
 
     const payload = jwt.decode(token);
 
-    const { isAdmin } = payload;
+    const { isAdmin, email } = payload;
 
-    const userBookings = {
-      text: 'SELECT * FROM booking WHERE user_id = $1',
-      values: [userId],
+    const findUserId = {
+      text: 'SELECT * FROM users WHERE email = $1',
+      values: [email],
     };
 
-    const bookings = JSON.parse(isAdmin) ? 'SELECT * FROM booking' : userBookings;
-
     try {
-      const { rows } = await pool.query(bookings);
+      let { rows } = await pool.query(findUserId);
+
+      const userId = rows[0].id;
+
+      const userBookings = {
+        text: 'SELECT * FROM booking WHERE user_id = $1',
+        values: [userId],
+      };
+
+      const bookings = JSON.parse(isAdmin) ? 'SELECT * FROM booking' : userBookings;
+
+      ({ rows } = await pool.query(bookings));
 
       return res.status(200).send({
         status: 'success',
@@ -260,15 +304,10 @@ class api {
     }
   }
 
-  static async deleteBookings(req, res) {
-    const { token, userId } = req.body;
+  static async deleteBooking(req, res) {
+    const { token } = req.body;
 
     const { bookingId } = req.params;
-
-    const myBookings = {
-      text: 'DELETE FROM booking WHERE user_id = $1 AND id = $2 RETURNING *',
-      values: [+userId, +bookingId],
-    };
 
     if (!token) {
       return res.status(401).send({
@@ -277,15 +316,26 @@ class api {
       });
     }
 
-    if (!userId) {
-      return res.status(400).send({
-        status: 'error',
-        error: 'User id missing',
-      });
-    }
+    const payload = jwt.decode(token);
+
+    const { email } = payload;
+
+    const findUserId = {
+      text: 'SELECT * FROM users WHERE email = $1',
+      values: [email],
+    };
 
     try {
-      const { rows } = await pool.query(myBookings);
+      let { rows } = await pool.query(findUserId);
+
+      const userId = rows[0].id;
+
+      const myBookings = {
+        text: 'DELETE FROM booking WHERE user_id = $1 AND id = $2 RETURNING *',
+        values: [+userId, +bookingId],
+      };
+
+      ({ rows } = await pool.query(myBookings));
 
       return res.status(200).send({
         status: 'success',
@@ -420,14 +470,9 @@ class api {
   }
 
   static async changeSeat(req, res) {
-    const { token, seatNumber, userId } = req.body;
+    const { token } = req.body;
 
     const { bookingId } = req.params;
-
-    const newSeat = {
-      text: 'UPDATE booking SET seat_number = $1 WHERE id = $2  AND user_id = $3 RETURNING *',
-      values: [+seatNumber, +bookingId, +userId],
-    };
 
     if (!token) {
       return res.status(401).send({
@@ -436,8 +481,48 @@ class api {
       });
     }
 
+    const payload = jwt.decode(token);
+
+    const { email } = payload;
+
+    const getUserId = {
+      text: 'SELECT * FROM users WHERE email = $1',
+      values: [email],
+    };
+
+    const getTripId = {
+      text: 'SELECT * FROM booking WHERE id = $1',
+      values: [bookingId],
+    };
+
     try {
-      const { rows } = await pool.query(newSeat);
+      let { rows } = await pool.query(getUserId);
+
+      const userId = rows[0].id;
+
+      ({ rows } = await pool.query(getTripId));
+
+      const tripId = rows[0].trip_id;
+
+      const getSeatsBooked = {
+        text: 'SELECT * FROM booking WHERE trip_id = $1',
+        values: [tripId],
+      };
+
+      ({ rows } = await pool.query(getSeatsBooked));
+
+      const seatsBooked = rows.map(booking => booking.seat_number);
+      // Assume bus contains 500 seats
+      const allSeats = Array.from({ length: 499 }, (v, i) => i + 1);
+      // Find an empty seat
+      const seatNumber = allSeats.find(seat => seatsBooked.indexOf(seat) < 0);
+      // change seat
+      const newSeat = {
+        text: 'UPDATE booking SET seat_number = $1 WHERE id = $2  AND user_id = $3 RETURNING *',
+        values: [+seatNumber, +bookingId, +userId],
+      };
+
+      ({ rows } = await pool.query(newSeat));
 
       return res.status(200).send({
         status: 'success',
