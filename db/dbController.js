@@ -33,6 +33,7 @@ class api {
 
     try {
       const { rows } = await pool.query(profile);
+      console.log(rows);
 
       return res.status(201).send({
         status: 'success',
@@ -52,7 +53,7 @@ class api {
 
   static async confirmUser(req, res) {
     const { email, password } = req.body;
-
+    console.log(req.body);
     const profile = {
       text: 'SELECT * FROM users WHERE email = $1 AND password = $2',
       values: [email, password],
