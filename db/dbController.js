@@ -8,9 +8,9 @@ class api {
     const token = jwt.sign({
       firstName, email, lastName, password, isAdmin,
     },
-      process.env.SECRET_KEY, {
-        expiresIn: process.env.EXPIRY_SECONDS,
-      });
+    process.env.SECRET_KEY, {
+      expiresIn: process.env.EXPIRY_SECONDS,
+    });
 
     return token;
   }
