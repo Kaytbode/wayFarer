@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/Kaytbode/wayFarer.svg?branch=master)](https://travis-ci.com/Kaytbode/wayFarer)[![Coverage Status](https://coveralls.io/repos/github/Kaytbode/wayFarer/badge.svg?branch=master)](https://coveralls.io/github/Kaytbode/wayFarer?branch=master)
+[![Build Status](https://travis-ci.com/Kaytbode/wayFarer.svg?branch=master)](https://travis-ci.com/Kaytbode/wayFarer)  [![Coverage Status](https://coveralls.io/repos/github/Kaytbode/wayFarer/badge.svg?branch=master)](https://coveralls.io/github/Kaytbode/wayFarer?branch=master)
 
 # WayFarer API
 A backend **API** for a public bus transportation booking server, created with 
