@@ -31,10 +31,10 @@ class api {
       VALUES($1, $2, $3, $4, $5, $6) RETURNING id`,
       values: [email, firstName, lastName, password, token, isAdmin],
     };
-    console.log(profile);
+
     try {
       const { rows } = await pool.query(profile);
-
+      console.log(rows);
       return res.status(201).send({
         status: 'success',
         data: {

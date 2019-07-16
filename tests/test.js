@@ -12,8 +12,8 @@ describe('sign up user', () => {
   it('it should not SIGN UP a user without all required fields', (done) => {
     const profile = {
       email: 'acd@gmail.com',
-      firstName: 'Joh',
-      lastName: 'Doe',
+      first_name: 'Joh',
+      last_name: 'Doe',
     };
 
     chai.request(app)
