@@ -19,6 +19,7 @@ class api {
     const { email, password } = req.body;
 
     const firstName = req.body.first_name;
+
     const lastName = req.body.last_name;
 
     const isAdmin = false;
