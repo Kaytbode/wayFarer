@@ -11,7 +11,7 @@ chai.use(chaihttp);
 describe('sign up user', () => {
   it('it should not SIGN UP a user without all required fields', (done) => {
     const profile = {
-      email: 'acodi@gmail.com',
+      email: 'acdi@gmail.com',
       first_name: 'Joh',
       last_name: 'Doe',
     };
@@ -27,10 +27,10 @@ describe('sign up user', () => {
   });
   it('it should SIGN UP a user that meets all criteria', (done) => {
     const profile = {
-      email: 'acodi@gmail.com',
+      email: 'acdi@gmail.com',
       first_name: 'John',
       last_name: 'Doe',
-      password: '1234567',
+      password: '12345678',
     };
     chai.request(app)
       .post('/auth/signup')
@@ -122,6 +122,8 @@ describe('Admin can create trip', () => {
     const trip = {
       origin: 'ikeja',
       destination: 'agege',
+      trip_date: '2019-05-08',
+      bus_id: 1,
       fare: 100.45,
       token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AeWFob28uY29tIiwibGFzdE5hbWUiOiJhZG1pbiIsInBhc3N3b3JkIjoiYWRtaW4iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NjI5NDMyNzYsImV4cCI6MTU2Mjk0Mzg4MH0.2OortBYCq',
     };
