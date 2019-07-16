@@ -11,6 +11,9 @@ before_script:
 
 after_success: npm run coverage
 
+script:
+  - npm run script travis-test
+
 cache:
   directories:
     - "$HOME/.npm"
