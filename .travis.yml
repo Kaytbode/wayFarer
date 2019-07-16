@@ -3,15 +3,8 @@ language: node_js
 node_js:
   - 'lts/*'
 
-addons:
-  postgresql: "11"
-  apt:
-    packages:
-    - postgresql-11
-    - postgresql-client-11
-env:
-  global:
-  - PGPORT=5433 
+services:
+  - postgresql
 
 before_script:
   - psql --version
