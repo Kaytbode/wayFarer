@@ -8,6 +8,7 @@ env:
 
 before_script:
   - psql --version
+  - psql -c 'CREATE DATABASE api;' -U postgres
 
 addons:
   - postgresql: "11.3"
