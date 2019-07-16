@@ -7,8 +7,9 @@ services:
   - postgresql
 
 before_script:
-  - psql --version
   - psql -c 'CREATE DATABASE api;' -U postgres
+
+after_success: npm run coverage
 
 cache:
   directories:
