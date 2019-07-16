@@ -11,7 +11,7 @@ chai.use(chaihttp);
 describe('sign up user', () => {
   it('it should not SIGN UP a user without all required fields', (done) => {
     const profile = {
-      email: 'acdi@gmail.com',
+      email: 'acdih@gmail.com',
       first_name: 'Joh',
       last_name: 'Doe',
     };
@@ -27,7 +27,7 @@ describe('sign up user', () => {
   });
   it('it should SIGN UP a user that meets all criteria', (done) => {
     const profile = {
-      email: 'acdi@gmail.com',
+      email: 'acdih@gmail.com',
       first_name: 'John',
       last_name: 'Doe',
       password: '12345678',
@@ -181,7 +181,7 @@ describe('Users can book trips', () => {
   it('it should book a trip if all parameters are available', (done) => {
     const profile = {
       token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJKb2huIiwiZW1haWwiOiJhY2RAZ21haWwuY29tIiwibGFzdE5hbWUiOiJEb2UiLCJwYXNzd29yZCI6IjEyMzQ1NjciLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNTYzMjc0MTM2LCJleHAiOjE1NjMyNzQ3NDB9.YkMCqQvaD53W0lffD2ujrOLIecSYgCuG93AXrpm9U4Y',
-      trip_id: 1,
+      trip_id: 5,
     };
     chai.request(app)
       .post('/bookings')
@@ -299,7 +299,7 @@ describe('Cancel trips', () => {
       token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AeWFob28uY29tIiwibGFzdE5hbWUiOiJhZG1pbiIsInBhc3N3b3JkIjoiYWRtaW4iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NjI5NDMyNzYsImV4cCI6MTU2Mjk0Mzg4MH0.2OortBYCq',
     };
     chai.request(app)
-      .patch('/trips/1')
+      .patch('/trips/5')
       .send(profile)
       .end((err, res) => {
         res.should.have.status(200);
@@ -313,7 +313,7 @@ describe('Cancel trips', () => {
       token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJKb2huIiwiZW1haWwiOiJhY2RAZ21haWwuY29tIiwibGFzdE5hbWUiOiJEb2UiLCJwYXNzd29yZCI6IjEyMzQ1NjciLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNTYzMjc0MTM2LCJleHAiOjE1NjMyNzQ3NDB9.YkMCqQvaD53W0lffD2ujrOLIecSYgCuG93AXrpm9U4Y',
     };
     chai.request(app)
-      .patch('/trips/1')
+      .patch('/trips/5')
       .send(profile)
       .end((err, res) => {
         res.should.have.status(403);
@@ -326,7 +326,7 @@ describe('Cancel trips', () => {
 
     };
     chai.request(app)
-      .patch('/trips/1')
+      .patch('/trips/5')
       .send(profile)
       .end((err, res) => {
         res.should.have.status(401);
