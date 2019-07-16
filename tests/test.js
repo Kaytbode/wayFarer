@@ -30,7 +30,7 @@ describe('sign up user', () => {
       email: 'acdih@gmail.com',
       first_name: 'John',
       last_name: 'Doe',
-      password: '12345678',
+      password: '123456789',
     };
     chai.request(app)
       .post('/auth/signup')
@@ -261,6 +261,38 @@ describe('View bookings', () => {
   });
 });
 
+// Change seat
+describe('Change seat', () => {
+  it('User can change seat', (done) => {
+    const profile = {
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJKb2huIiwiZW1haWwiOiJhY2RAZ21haWwuY29tIiwibGFzdE5hbWUiOiJEb2UiLCJwYXNzd29yZCI6IjEyMzQ1NjciLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNTYzMjc0MTM2LCJleHAiOjE1NjMyNzQ3NDB9.YkMCqQvaD53W0lffD2ujrOLIecSYgCuG93AXrpm9U4Y',
+    };
+    chai.request(app)
+      .patch('/api/v1/bookings/user/2')
+      .send(profile)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.data.should.be.a('object');
+        done();
+      });
+  });
+
+  it('User cannot change seat without a token', (done) => {
+    const profile = {
+
+    };
+    chai.request(app)
+      .patch('/api/v1/bookings/user/1')
+      .send(profile)
+      .end((err, res) => {
+        res.should.have.status(401);
+        res.body.should.be.a('object');
+        done();
+      });
+  });
+});
+
 // delete bookings
 describe('Delete bookings', () => {
   it('user can delete booking', (done) => {
@@ -268,7 +300,7 @@ describe('Delete bookings', () => {
       token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJKb2huIiwiZW1haWwiOiJhY2RAZ21haWwuY29tIiwibGFzdE5hbWUiOiJEb2UiLCJwYXNzd29yZCI6IjEyMzQ1NjciLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNTYzMjc0MTM2LCJleHAiOjE1NjMyNzQ3NDB9.YkMCqQvaD53W0lffD2ujrOLIecSYgCuG93AXrpm9U4Y',
     };
     chai.request(app)
-      .delete('/bookings/1')
+      .delete('/bookings/2')
       .send(profile)
       .end((err, res) => {
         res.should.have.status(200);
@@ -391,38 +423,6 @@ describe('Trips by Origin', () => {
     };
     chai.request(app)
       .get('/api/v1/trips/origin/ikeja')
-      .send(profile)
-      .end((err, res) => {
-        res.should.have.status(401);
-        res.body.should.be.a('object');
-        done();
-      });
-  });
-});
-
-// Change seat
-describe('Change seat', () => {
-  it('User can change seat', (done) => {
-    const profile = {
-      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJKb2huIiwiZW1haWwiOiJhY2RAZ21haWwuY29tIiwibGFzdE5hbWUiOiJEb2UiLCJwYXNzd29yZCI6IjEyMzQ1NjciLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNTYzMjc0MTM2LCJleHAiOjE1NjMyNzQ3NDB9.YkMCqQvaD53W0lffD2ujrOLIecSYgCuG93AXrpm9U4Y',
-    };
-    chai.request(app)
-      .patch('/api/v1/bookings/user/1')
-      .send(profile)
-      .end((err, res) => {
-        res.should.have.status(200);
-        res.body.should.be.a('object');
-        res.body.data.should.be.a('object');
-        done();
-      });
-  });
-
-  it('User cannot change seat without a token', (done) => {
-    const profile = {
-
-    };
-    chai.request(app)
-      .patch('/api/v1/bookings/user/1')
       .send(profile)
       .end((err, res) => {
         res.should.have.status(401);
