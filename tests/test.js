@@ -11,7 +11,7 @@ chai.use(chaihttp);
 describe('sign up user', () => {
   it('it should not SIGN UP a user without all required fields', (done) => {
     const profile = {
-      email: 'joed@gmail.com',
+      email: 'fring@gmail.com',
       first_name: 'Joh',
       last_name: 'Doe',
     };
@@ -27,10 +27,10 @@ describe('sign up user', () => {
   });
   it('it should SIGN UP a user that meets all criteria', (done) => {
     const profile = {
-      email: 'gring@gmail.com',
+      email: 'frings@gmail.com',
       first_name: 'John',
       last_name: 'Doe',
-      password: '1iy56789',
+      password: '1iy5u6789',
     };
     chai.request(app)
       .post('/auth/signup')
@@ -181,7 +181,7 @@ describe('Users can book trips', () => {
   it('it should book a trip if all parameters are available', (done) => {
     const profile = {
       token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJKb2huIiwiZW1haWwiOiJhY2RAZ21haWwuY29tIiwibGFzdE5hbWUiOiJEb2UiLCJwYXNzd29yZCI6IjEyMzQ1NjciLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNTYzMjc0MTM2LCJleHAiOjE1NjMyNzQ3NDB9.YkMCqQvaD53W0lffD2ujrOLIecSYgCuG93AXrpm9U4Y',
-      trip_id: 15,
+      trip_id: 20,
     };
     chai.request(app)
       .post('/bookings')
@@ -300,7 +300,7 @@ describe('Delete bookings', () => {
       token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJKb2huIiwiZW1haWwiOiJhY2RAZ21haWwuY29tIiwibGFzdE5hbWUiOiJEb2UiLCJwYXNzd29yZCI6IjEyMzQ1NjciLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNTYzMjc0MTM2LCJleHAiOjE1NjMyNzQ3NDB9.YkMCqQvaD53W0lffD2ujrOLIecSYgCuG93AXrpm9U4Y',
     };
     chai.request(app)
-      .delete('/bookings/28')
+      .delete('/bookings/30')
       .send(profile)
       .end((err, res) => {
         res.should.have.status(200);
