@@ -11,7 +11,7 @@ addons:
     - postgresql-client-11
 env:
   global:
-  - PGPORT=5433 DB_USER=postgres DB_HOST=localhost DB_DATABASE=api DB_PW=Tope1711 DB_PORT=5432 SECRET_KEY=bubbagumpshrimp EXPIRY_SECONDS=604800 PORT=3000
+  - PGPORT=5433 
 
 before_script:
   - psql --version
