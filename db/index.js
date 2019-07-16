@@ -1,5 +1,7 @@
 import { Pool } from 'pg';
 
+// Heroku database
+
 /* const pool = new Pool({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
@@ -8,7 +10,11 @@ import { Pool } from 'pg';
   port: process.env.DB_PORT,
 }); */
 
-const connectionString = 'postgres://igekybyt:bq3Fh6DILuXf7TVJqSSXIeGXGSBzncdo@otto.db.elephantsql.com:5432/igekybyt';
+/*
+elephantSql needed for travis-ci config
+heroku was not connecting
+*/
+const connectionString = process.env.DB;
 
 const pool = new Pool({
   connectionString,

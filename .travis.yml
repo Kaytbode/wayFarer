@@ -9,8 +9,6 @@ services:
 before_script:
   - psql -c 'CREATE DATABASE api;' -U postgres
 
-after_success: npm run coverage
-
 script: npm run travis-test
 
 cache:

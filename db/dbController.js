@@ -34,7 +34,7 @@ class api {
 
     try {
       const { rows } = await pool.query(profile);
-      console.log(rows);
+
       return res.status(201).send({
         status: 'success',
         data: {
