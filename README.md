@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/Kaytbode/wayFarer.svg?branch=master)](https://travis-ci.com/Kaytbode/wayFarer)
+
 # WayFarer API
 A backend **API** for a public bus transportation booking server, created with 
 [Express](https://expressjs.com/).
@@ -75,4 +77,3 @@ The tests confirms if the endpoints deliver the appropriate response and **HTTP*
 + [Andela](https://andela.com/) - For the project guide
 + [Stack overflow](https://stackoverflow.com/) - For the numerous unblocking :)
 
-[![Build Status](https://travis-ci.com/Kaytbode/wayFarer.svg?branch=master)](https://travis-ci.com/Kaytbode/wayFarer)
