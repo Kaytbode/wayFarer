@@ -25,12 +25,12 @@ describe('sign up user', () => {
         done();
       });
   });
-  /* it('it should SIGN UP a user that meets all criteria', (done) => {
+  it('it should SIGN UP a user that meets all criteria', (done) => {
     const profile = {
-      email: 'yoms@mail.com',
+      email: 'yomus@mail.com',
       first_name: 'John',
       last_name: 'Doe',
-      password: '7890',
+      password: '784r90',
     };
     chai.request(app)
       .post('/api/v1/auth/signup')
@@ -44,7 +44,7 @@ describe('sign up user', () => {
         res.body.data.should.have.property('is_admin');
         done();
       });
-  }); */
+  });
 });
 // test for sign in
 describe('user can sign in', () => {
@@ -180,10 +180,10 @@ describe('Users can get all trips', () => {
 
 // Book a trip
 describe('Users can book trips', () => {
-  /* it('it should book a trip if all parameters are available', (done) => {
+  it('it should book a trip if all parameters are available', (done) => {
     const profile = {
       token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJKb2huIiwiZW1haWwiOiJhY2RAZ21haWwuY29tIiwibGFzdE5hbWUiOiJEb2UiLCJwYXNzd29yZCI6IjEyMzQ1NjciLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNTYzMjc0MTM2LCJleHAiOjE1NjMyNzQ3NDB9.YkMCqQvaD53W0lffD2ujrOLIecSYgCuG93AXrpm9U4Y',
-      trip_id: 7,
+      trip_id: 9,
     };
     chai.request(app)
       .post('/api/v1/bookings')
@@ -202,7 +202,7 @@ describe('Users can book trips', () => {
         res.body.data.should.have.property('email');
         done();
       });
-  }); */
+  });
   it('it should not book a trip without a token', (done) => {
     const profile = {
       tripId: 7,
@@ -297,12 +297,12 @@ describe('Change seat', () => {
 
 // delete bookings
 describe('Delete bookings', () => {
-  /* it('user can delete booking', (done) => {
+  it('user can delete booking', (done) => {
     const profile = {
       token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJKb2huIiwiZW1haWwiOiJhY2RAZ21haWwuY29tIiwibGFzdE5hbWUiOiJEb2UiLCJwYXNzd29yZCI6IjEyMzQ1NjciLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNTYzMjc0MTM2LCJleHAiOjE1NjMyNzQ3NDB9.YkMCqQvaD53W0lffD2ujrOLIecSYgCuG93AXrpm9U4Y',
     };
     chai.request(app)
-      .delete('/api/v1/bookings/38')
+      .delete('/api/v1/bookings/40')
       .send(profile)
       .end((err, res) => {
         res.should.have.status(200);
@@ -310,7 +310,7 @@ describe('Delete bookings', () => {
         res.body.data.should.be.a('object');
         done();
       });
-  }); */
+  });
   it('it should not delete booking without a token', (done) => {
     const profile = {
 
@@ -404,7 +404,7 @@ describe('Trips by Destination', () => {
 
 // filter by origin
 describe('Trips by Origin', () => {
-  /* it('Users can view trips by origin', (done) => {
+  it('Users can view trips by origin', (done) => {
     const profile = {
       token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJKb2huIiwiZW1haWwiOiJhY2RAZ21haWwuY29tIiwibGFzdE5hbWUiOiJEb2UiLCJwYXNzd29yZCI6IjEyMzQ1NjciLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNTYzMjc0MTM2LCJleHAiOjE1NjMyNzQ3NDB9.YkMCqQvaD53W0lffD2ujrOLIecSYgCuG93AXrpm9U4Y',
     };
@@ -417,7 +417,7 @@ describe('Trips by Origin', () => {
         res.body.data.should.be.a('array');
         done();
       });
-  }); */
+  });
 
   it('users should not view trips without a token', (done) => {
     const profile = {
