@@ -17,7 +17,7 @@ describe('sign up user', () => {
     };
 
     chai.request(app)
-      .post('/auth/signup')
+      .post('api/v1/auth/signup')
       .send(profile)
       .end((err, res) => {
         res.should.have.status(400);
@@ -33,7 +33,7 @@ describe('sign up user', () => {
       password: '1iy5u6789',
     };
     chai.request(app)
-      .post('/auth/signup')
+      .post('api/v1/auth/signup')
       .send(profile)
       .end((err, res) => {
         res.should.have.status(201);
@@ -54,7 +54,7 @@ describe('user can sign in', () => {
     };
 
     chai.request(app)
-      .post('/auth/signin')
+      .post('api/v1/auth/signin')
       .send(profile)
       .end((err, res) => {
         res.should.have.status(401);
@@ -70,7 +70,7 @@ describe('user can sign in', () => {
     };
 
     chai.request(app)
-      .post('/auth/signin')
+      .post('api/v1/auth/signin')
       .send(profile)
       .end((err, res) => {
         should.not.exist(err);
@@ -94,7 +94,7 @@ describe('Admin can create trip', () => {
     };
 
     chai.request(app)
-      .post('/trips')
+      .post('api/v1/trips')
       .send(trip)
       .end((err, res) => {
         res.should.have.status(403);
@@ -110,7 +110,7 @@ describe('Admin can create trip', () => {
     };
 
     chai.request(app)
-      .post('/trips')
+      .post('api/v1/trips')
       .send(trip)
       .end((err, res) => {
         res.should.have.status(401);
@@ -151,7 +151,7 @@ describe('Users can get all trips', () => {
       token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJKb2huIiwiZW1haWwiOiJhY2RAZ21haWwuY29tIiwibGFzdE5hbWUiOiJEb2UiLCJwYXNzd29yZCI6IjEyMzQ1NjciLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNTYzMjc0MTM2LCJleHAiOjE1NjMyNzQ3NDB9.YkMCqQvaD53W0lffD2ujrOLIecSYgCuG93AXrpm9U4Y',
     };
     chai.request(app)
-      .get('/trips')
+      .get('api/v1/trips')
       .send(profile)
       .end((err, res) => {
         res.should.have.status(200);
@@ -166,7 +166,7 @@ describe('Users can get all trips', () => {
 
     };
     chai.request(app)
-      .get('/trips')
+      .get('api/v1/trips')
       .send(profile)
       .end((err, res) => {
         res.should.have.status(401);
@@ -184,7 +184,7 @@ describe('Users can book trips', () => {
       trip_id: 20,
     };
     chai.request(app)
-      .post('/bookings')
+      .post('api/v1/bookings')
       .send(profile)
       .end((err, res) => {
         res.should.have.status(201);
@@ -206,7 +206,7 @@ describe('Users can book trips', () => {
       tripId: 2,
     };
     chai.request(app)
-      .post('/bookings')
+      .post('api/v1/bookings')
       .send(profile)
       .end((err, res) => {
         res.should.have.status(401);
@@ -223,7 +223,7 @@ describe('View bookings', () => {
       token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AeWFob28uY29tIiwibGFzdE5hbWUiOiJhZG1pbiIsInBhc3N3b3JkIjoiYWRtaW4iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NjI5NDMyNzYsImV4cCI6MTU2Mjk0Mzg4MH0.2OortBYCq',
     };
     chai.request(app)
-      .get('/bookings')
+      .get('api/v1/bookings')
       .send(profile)
       .end((err, res) => {
         res.should.have.status(200);
@@ -237,7 +237,7 @@ describe('View bookings', () => {
       token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJKb2huIiwiZW1haWwiOiJhY2RAZ21haWwuY29tIiwibGFzdE5hbWUiOiJEb2UiLCJwYXNzd29yZCI6IjEyMzQ1NjciLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNTYzMjc0MTM2LCJleHAiOjE1NjMyNzQ3NDB9.YkMCqQvaD53W0lffD2ujrOLIecSYgCuG93AXrpm9U4Y',
     };
     chai.request(app)
-      .get('/bookings')
+      .get('api/v1/bookings')
       .send(profile)
       .end((err, res) => {
         res.should.have.status(200);
@@ -251,7 +251,7 @@ describe('View bookings', () => {
 
     };
     chai.request(app)
-      .get('/bookings')
+      .get('api/v1/bookings')
       .send(profile)
       .end((err, res) => {
         res.should.have.status(401);
@@ -300,7 +300,7 @@ describe('Delete bookings', () => {
       token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJKb2huIiwiZW1haWwiOiJhY2RAZ21haWwuY29tIiwibGFzdE5hbWUiOiJEb2UiLCJwYXNzd29yZCI6IjEyMzQ1NjciLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNTYzMjc0MTM2LCJleHAiOjE1NjMyNzQ3NDB9.YkMCqQvaD53W0lffD2ujrOLIecSYgCuG93AXrpm9U4Y',
     };
     chai.request(app)
-      .delete('/bookings/30')
+      .delete('api/v1/bookings/30')
       .send(profile)
       .end((err, res) => {
         res.should.have.status(200);
@@ -331,7 +331,7 @@ describe('Cancel trips', () => {
       token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AeWFob28uY29tIiwibGFzdE5hbWUiOiJhZG1pbiIsInBhc3N3b3JkIjoiYWRtaW4iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NjI5NDMyNzYsImV4cCI6MTU2Mjk0Mzg4MH0.2OortBYCq',
     };
     chai.request(app)
-      .patch('/trips/5')
+      .patch('api/v1/trips/5')
       .send(profile)
       .end((err, res) => {
         res.should.have.status(200);
