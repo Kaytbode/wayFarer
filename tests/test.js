@@ -27,7 +27,7 @@ describe('sign up user', () => {
   });
   it('it should SIGN UP a user that meets all criteria', (done) => {
     const profile = {
-      email: 'frings@gmail.com',
+      email: 'flims@gmail.com',
       first_name: 'John',
       last_name: 'Doe',
       password: '1iy5u6789',
@@ -57,7 +57,7 @@ describe('user can sign in', () => {
       .post('/api/v1/auth/signin')
       .send(profile)
       .end((err, res) => {
-        res.should.have.status(401);
+        res.should.have.status(400);
         res.body.should.be.a('object');
         done();
       });
@@ -89,6 +89,8 @@ describe('Admin can create trip', () => {
     const trip = {
       origin: 'ikeja',
       destination: 'agege',
+      bus_id: 1,
+      trip_date: '2019-05-08',
       fare: 100.45,
       token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJKb2huIiwiZW1haWwiOiJhY2RAZ21haWwuY29tIiwibGFzdE5hbWUiOiJEb2UiLCJwYXNzd29yZCI6IjEyMzQ1NjciLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNTYzMjc0MTM2LCJleHAiOjE1NjMyNzQ3NDB9.YkMCqQvaD53W0lffD2ujrOLIecSYgCuG93AXrpm9U4Y',
     };
@@ -181,7 +183,7 @@ describe('Users can book trips', () => {
   it('it should book a trip if all parameters are available', (done) => {
     const profile = {
       token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJKb2huIiwiZW1haWwiOiJhY2RAZ21haWwuY29tIiwibGFzdE5hbWUiOiJEb2UiLCJwYXNzd29yZCI6IjEyMzQ1NjciLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNTYzMjc0MTM2LCJleHAiOjE1NjMyNzQ3NDB9.YkMCqQvaD53W0lffD2ujrOLIecSYgCuG93AXrpm9U4Y',
-      trip_id: 20,
+      trip_id: 32,
     };
     chai.request(app)
       .post('/api/v1/bookings')
@@ -300,7 +302,7 @@ describe('Delete bookings', () => {
       token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJKb2huIiwiZW1haWwiOiJhY2RAZ21haWwuY29tIiwibGFzdE5hbWUiOiJEb2UiLCJwYXNzd29yZCI6IjEyMzQ1NjciLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNTYzMjc0MTM2LCJleHAiOjE1NjMyNzQ3NDB9.YkMCqQvaD53W0lffD2ujrOLIecSYgCuG93AXrpm9U4Y',
     };
     chai.request(app)
-      .delete('/api/v1/bookings/30')
+      .delete('/api/v1/bookings/32')
       .send(profile)
       .end((err, res) => {
         res.should.have.status(200);
