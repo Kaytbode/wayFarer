@@ -22,6 +22,13 @@ class api {
 
     const lastName = req.body.last_name;
 
+    if ( !email || !password || !firstName || !lastName) {
+      return res.status(400).send({
+        status: 'error',
+        error: 'Please fill all required fields',
+      });
+    }
+
     const isAdmin = false;
 
     const token = api.generateToken(firstName, email, lastName, password, isAdmin);
@@ -53,6 +60,13 @@ class api {
 
   static async confirmUser(req, res) {
     const { email, password } = req.body;
+
+    if ( !email || !password ) {
+      return res.status(400).send({
+        status: 'error',
+        error: 'Please fill all required fields',
+      });
+    }
 
     const profile = {
       text: 'SELECT * FROM users WHERE email = $1 AND password = $2',
@@ -100,6 +114,13 @@ class api {
       return res.status(401).send({
         status: 'error',
         error: 'User unauthorized',
+      });
+    }
+
+    if ( !origin || !destination || !fare || !busId || !tripDate) {
+      return res.status(400).send({
+        status: 'error',
+        error: 'Please fill all required fields',
       });
     }
 
