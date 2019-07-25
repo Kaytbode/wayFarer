@@ -22,7 +22,7 @@ class api {
 
     const lastName = req.body.last_name;
 
-    if ( !email || !password || !firstName || !lastName) {
+    if (!email || !password || !firstName || !lastName) {
       return res.status(400).send({
         status: 'error',
         error: 'Please fill all required fields',
@@ -61,7 +61,7 @@ class api {
   static async confirmUser(req, res) {
     const { email, password } = req.body;
 
-    if ( !email || !password ) {
+    if (!email || !password) {
       return res.status(400).send({
         status: 'error',
         error: 'Please fill all required fields',
@@ -117,7 +117,7 @@ class api {
       });
     }
 
-    if ( !origin || !destination || !fare || !busId || !tripDate) {
+    if (!origin || !destination || !fare || !busId || !tripDate) {
       return res.status(400).send({
         status: 'error',
         error: 'Please fill all required fields',
